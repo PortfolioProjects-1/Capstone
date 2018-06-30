@@ -16,6 +16,7 @@ library(GISTools)
 library(flexclust)
 library(tibble)
 library(lubridate)
+library(forecast)
 ###--------------------------------###
 
 setwd("C:/Users/kenne/GIT/Capstone")
@@ -90,13 +91,13 @@ TN_Tract_Population_2010$Tract_Population_2010 <- as.numeric(TN_Tract_Population
 
 TN_Tract_Population_2010$Tract_Population_2010[which(TN_Tract_Population_2010$Tract_Population_2010 == 0)] <-  mean(TN_Tract_Population_2010$Tract_Population_2010)
 
-TN_Tract_Population_2010$Tract_Population_65_to_74_2010 <- as.numeric(TN_Tract_Population_2010$Tract_Population_65_to_74_2010)
+TN_Tract_Population_2010$Tract_Population_65_to_74_2010 <- as.numeric(as.character(TN_Tract_Population_2010$Tract_Population_65_to_74_2010))
 
-TN_Tract_Population_2010$Tract_Population_75_to_84_2010 <- as.numeric(TN_Tract_Population_2010$Tract_Population_75_to_84_2010)
+TN_Tract_Population_2010$Tract_Population_75_to_84_2010 <- as.numeric(as.character(TN_Tract_Population_2010$Tract_Population_75_to_84_2010))
 
-TN_Tract_Population_2010$Tract_Population_Over_85_2010 <- as.numeric(TN_Tract_Population_2010$Tract_Population_Over_85_2010)
+TN_Tract_Population_2010$Tract_Population_Over_85_2010 <- as.numeric(as.character(TN_Tract_Population_2010$Tract_Population_Over_85_2010))
 
-TN_Tract_Population_2010$Target_Demographic_Population_2010 <- as.numeric(TN_Tract_Population_2010$Tract_Population_65_to_74_2010+TN_Tract_Population_2010$Tract_Population_75_to_84_2010+TN_Tract_Population_2010$Tract_Population_Over_85_2010)
+TN_Tract_Population_2010$Target_Demographic_Population_2010 <- as.numeric(as.character(TN_Tract_Population_2010$Tract_Population_65_to_74_2010+TN_Tract_Population_2010$Tract_Population_75_to_84_2010+TN_Tract_Population_2010$Tract_Population_Over_85_2010))
 
 TN_Tract_Population_2010$Tract_Population_Density_2010 <- round((TN_Tract_Population_2010$Target_Demographic_Population_2010/TN_Tract_Population_2010$Tract_Population_2010), 2)
 
@@ -107,7 +108,7 @@ TN_Tract_Population_2010$Tract_Population_Density_2010[which(TN_Tract_Population
 
 TN_Tract_Population_2011 = read.csv("Data/TN_Tract_Data/ACS_11_5YR_DP05_with_ann.csv")
 
-TN_Tract_Population_2011 <- TN_Tract_Population_2011[,c("GEO.id","GEO.id2","GEO.display.label","HC01_VC03","HC01_VC17", "HC01_VC18", "HC01_VC29")]
+TN_Tract_Population_2011 <- TN_Tract_Population_2011[,c("GEO.id","GEO.id2","GEO.display.label","HC01_VC03","HC01_VC17", "HC01_VC18", "HC01_VC19")]
 
 names(TN_Tract_Population_2011) <- c("ID1", "ID2", "Tract_Name_2011", "Tract_Population_2011", "Tract_Population_65_to_74_2011", "Tract_Population_75_to_84_2011", "Tract_Population_Over_85_2011")
 
@@ -119,15 +120,15 @@ TN_Tract_Population_2011$Tract_Population_2011 <- as.numeric(as.character(TN_Tra
 
 TN_Tract_Population_2011$Tract_Population_2011[which(TN_Tract_Population_2011$Tract_Population_2011 == 0)] <-  mean(TN_Tract_Population_2011$Tract_Population_2011)
 
-TN_Tract_Population_2011$Tract_Population_2011 <- as.numeric(TN_Tract_Population_2011$Tract_Population_2011)
+TN_Tract_Population_2011$Tract_Population_2011 <- as.numeric(as.character(TN_Tract_Population_2011$Tract_Population_2011))
 
-TN_Tract_Population_2011$Tract_Population_65_to_74_2011 <- as.numeric(TN_Tract_Population_2011$Tract_Population_65_to_74_2011)
+TN_Tract_Population_2011$Tract_Population_65_to_74_2011 <- as.numeric(as.character(TN_Tract_Population_2011$Tract_Population_65_to_74_2011))
 
-TN_Tract_Population_2011$Tract_Population_75_to_84_2011 <- as.numeric(TN_Tract_Population_2011$Tract_Population_75_to_84_2011)
+TN_Tract_Population_2011$Tract_Population_75_to_84_2011 <- as.numeric(as.character(TN_Tract_Population_2011$Tract_Population_75_to_84_2011))
 
-TN_Tract_Population_2011$Tract_Population_Over_85_2011 <- as.numeric(TN_Tract_Population_2011$Tract_Population_Over_85_2011)
+TN_Tract_Population_2011$Tract_Population_Over_85_2011 <- as.numeric(as.character(TN_Tract_Population_2011$Tract_Population_Over_85_2011))
 
-TN_Tract_Population_2011$Target_Demographic_Population_2011 <- as.numeric(TN_Tract_Population_2011$Tract_Population_65_to_74_2011+TN_Tract_Population_2011$Tract_Population_75_to_84_2011+TN_Tract_Population_2011$Tract_Population_Over_85_2011)
+TN_Tract_Population_2011$Target_Demographic_Population_2011 <- as.numeric(as.character(TN_Tract_Population_2011$Tract_Population_65_to_74_2011+TN_Tract_Population_2011$Tract_Population_75_to_84_2011+TN_Tract_Population_2011$Tract_Population_Over_85_2011))
 
 TN_Tract_Population_2011$Tract_Population_Density_2011 <- round((TN_Tract_Population_2011$Target_Demographic_Population_2011/TN_Tract_Population_2011$Tract_Population_2011), 2)
 
@@ -150,15 +151,15 @@ TN_Tract_Population_2012$Tract_Population_2012 <- as.numeric(as.character(TN_Tra
 
 TN_Tract_Population_2012$Tract_Population_2012[which(TN_Tract_Population_2012$Tract_Population_2012 == 0)] <-  mean(TN_Tract_Population_2012$Tract_Population_2012)
 
-TN_Tract_Population_2012$Tract_Population_2012 <- as.numeric(TN_Tract_Population_2012$Tract_Population_2012)
+TN_Tract_Population_2012$Tract_Population_2012 <- as.numeric(as.character(TN_Tract_Population_2012$Tract_Population_2012))
 
-TN_Tract_Population_2012$Tract_Population_65_to_74_2012 <- as.numeric(TN_Tract_Population_2012$Tract_Population_65_to_74_2012)
+TN_Tract_Population_2012$Tract_Population_65_to_74_2012 <- as.numeric(as.character(TN_Tract_Population_2012$Tract_Population_65_to_74_2012))
 
-TN_Tract_Population_2012$Tract_Population_75_to_84_2012 <- as.numeric(TN_Tract_Population_2012$Tract_Population_75_to_84_2012)
+TN_Tract_Population_2012$Tract_Population_75_to_84_2012 <- as.numeric(as.character(TN_Tract_Population_2012$Tract_Population_75_to_84_2012))
 
-TN_Tract_Population_2012$Tract_Population_Over_85_2012 <- as.numeric(TN_Tract_Population_2012$Tract_Population_Over_85_2012)
+TN_Tract_Population_2012$Tract_Population_Over_85_2012 <- as.numeric(as.character(TN_Tract_Population_2012$Tract_Population_Over_85_2012))
 
-TN_Tract_Population_2012$Target_Demographic_Population_2012 <- as.numeric(TN_Tract_Population_2012$Tract_Population_65_to_74_2012+TN_Tract_Population_2012$Tract_Population_75_to_84_2012+TN_Tract_Population_2012$Tract_Population_Over_85_2012)
+TN_Tract_Population_2012$Target_Demographic_Population_2012 <- as.numeric(as.character(TN_Tract_Population_2012$Tract_Population_65_to_74_2012+TN_Tract_Population_2012$Tract_Population_75_to_84_2012+TN_Tract_Population_2012$Tract_Population_Over_85_2012))
 
 TN_Tract_Population_2012$Tract_Population_Density_2012 <- round((TN_Tract_Population_2012$Target_Demographic_Population_2012/TN_Tract_Population_2012$Tract_Population_2012), 2)
 
@@ -181,15 +182,15 @@ TN_Tract_Population_2013$Tract_Population_2013 <- as.numeric(as.character(TN_Tra
 
 TN_Tract_Population_2013$Tract_Population_2013[which(TN_Tract_Population_2013$Tract_Population_2013 == 0)] <-  mean(TN_Tract_Population_2013$Tract_Population_2013)
 
-TN_Tract_Population_2013$Tract_Population_2013 <- as.numeric(TN_Tract_Population_2013$Tract_Population_2013)
+TN_Tract_Population_2013$Tract_Population_2013 <- as.numeric(as.character(TN_Tract_Population_2013$Tract_Population_2013))
 
-TN_Tract_Population_2013$Tract_Population_65_to_74_2013 <- as.numeric(TN_Tract_Population_2013$Tract_Population_65_to_74_2013)
+TN_Tract_Population_2013$Tract_Population_65_to_74_2013 <- as.numeric(as.character(TN_Tract_Population_2013$Tract_Population_65_to_74_2013))
 
-TN_Tract_Population_2013$Tract_Population_75_to_84_2013 <- as.numeric(TN_Tract_Population_2013$Tract_Population_75_to_84_2013)
+TN_Tract_Population_2013$Tract_Population_75_to_84_2013 <- as.numeric(as.character(TN_Tract_Population_2013$Tract_Population_75_to_84_2013))
 
-TN_Tract_Population_2013$Tract_Population_Over_85_2013 <- as.numeric(TN_Tract_Population_2013$Tract_Population_Over_85_2013)
+TN_Tract_Population_2013$Tract_Population_Over_85_2013 <- as.numeric(as.character(TN_Tract_Population_2013$Tract_Population_Over_85_2013))
 
-TN_Tract_Population_2013$Target_Demographic_Population_2013 <- as.numeric(TN_Tract_Population_2013$Tract_Population_65_to_74_2013+TN_Tract_Population_2013$Tract_Population_75_to_84_2013+TN_Tract_Population_2013$Tract_Population_Over_85_2013)
+TN_Tract_Population_2013$Target_Demographic_Population_2013 <- as.numeric(as.character(TN_Tract_Population_2013$Tract_Population_65_to_74_2013+TN_Tract_Population_2013$Tract_Population_75_to_84_2013+TN_Tract_Population_2013$Tract_Population_Over_85_2013))
 
 TN_Tract_Population_2013$Tract_Population_Density_2013 <- round((TN_Tract_Population_2013$Target_Demographic_Population_2013/TN_Tract_Population_2013$Tract_Population_2013), 2)
 
@@ -212,15 +213,15 @@ TN_Tract_Population_2014$Tract_Population_2014 <- as.numeric(as.character(TN_Tra
 
 TN_Tract_Population_2014$Tract_Population_2014[which(TN_Tract_Population_2014$Tract_Population_2014 == 0)] <-  mean(TN_Tract_Population_2014$Tract_Population_2014)
 
-TN_Tract_Population_2014$Tract_Population_2014 <- as.numeric(TN_Tract_Population_2014$Tract_Population_2014)
+TN_Tract_Population_2014$Tract_Population_2014 <- as.numeric(Tas.character(N_Tract_Population_2014$Tract_Population_2014))
 
-TN_Tract_Population_2014$Tract_Population_65_to_74_2014 <- as.numeric(TN_Tract_Population_2014$Tract_Population_65_to_74_2014)
+TN_Tract_Population_2014$Tract_Population_65_to_74_2014 <- as.numeric(as.character(TN_Tract_Population_2014$Tract_Population_65_to_74_2014))
 
-TN_Tract_Population_2014$Tract_Population_75_to_84_2014 <- as.numeric(TN_Tract_Population_2014$Tract_Population_75_to_84_2014)
+TN_Tract_Population_2014$Tract_Population_75_to_84_2014 <- as.numeric(as.character(TN_Tract_Population_2014$Tract_Population_75_to_84_2014))
 
-TN_Tract_Population_2014$Tract_Population_Over_85_2014 <- as.numeric(TN_Tract_Population_2014$Tract_Population_Over_85_2014)
+TN_Tract_Population_2014$Tract_Population_Over_85_2014 <- as.numeric(as.character(TN_Tract_Population_2014$Tract_Population_Over_85_2014))
 
-TN_Tract_Population_2014$Target_Demographic_Population_2014 <- as.numeric(TN_Tract_Population_2014$Tract_Population_65_to_74_2014+TN_Tract_Population_2014$Tract_Population_75_to_84_2014+TN_Tract_Population_2014$Tract_Population_Over_85_2014)
+TN_Tract_Population_2014$Target_Demographic_Population_2014 <- as.numeric(as.character(TN_Tract_Population_2014$Tract_Population_65_to_74_2014+TN_Tract_Population_2014$Tract_Population_75_to_84_2014+TN_Tract_Population_2014$Tract_Population_Over_85_2014))
 
 TN_Tract_Population_2014$Tract_Population_Density_2014 <- round((TN_Tract_Population_2014$Target_Demographic_Population_2014/TN_Tract_Population_2014$Tract_Population_2014), 2)
 
@@ -244,15 +245,15 @@ TN_Tract_Population_2015$Tract_Population_2015 <- as.numeric(as.character(TN_Tra
 
 TN_Tract_Population_2015$Tract_Population_2015[which(TN_Tract_Population_2015$Tract_Population_2015 == 0)] <-  mean(TN_Tract_Population_2015$Tract_Population_2015)
 
-TN_Tract_Population_2015$Tract_Population_2015 <- as.numeric(TN_Tract_Population_2015$Tract_Population_2015)
+TN_Tract_Population_2015$Tract_Population_2015 <- as.numeric(as.character(TN_Tract_Population_2015$Tract_Population_2015))
 
-TN_Tract_Population_2015$Tract_Population_65_to_74_2015 <- as.numeric(TN_Tract_Population_2015$Tract_Population_65_to_74_2015)
+TN_Tract_Population_2015$Tract_Population_65_to_74_2015 <- as.numeric(as.character(TN_Tract_Population_2015$Tract_Population_65_to_74_2015))
 
-TN_Tract_Population_2015$Tract_Population_75_to_84_2015 <- as.numeric(TN_Tract_Population_2015$Tract_Population_75_to_84_2015)
+TN_Tract_Population_2015$Tract_Population_75_to_84_2015 <- as.numeric(as.character(TN_Tract_Population_2015$Tract_Population_75_to_84_2015))
 
-TN_Tract_Population_2015$Tract_Population_Over_85_2015 <- as.numeric(TN_Tract_Population_2015$Tract_Population_Over_85_2015)
+TN_Tract_Population_2015$Tract_Population_Over_85_2015 <- as.numeric(as.character(TN_Tract_Population_2015$Tract_Population_Over_85_2015))
 
-TN_Tract_Population_2015$Target_Demographic_Population_2015 <- as.numeric(TN_Tract_Population_2015$Tract_Population_65_to_74_2015+TN_Tract_Population_2015$Tract_Population_75_to_84_2015+TN_Tract_Population_2015$Tract_Population_Over_85_2015)
+TN_Tract_Population_2015$Target_Demographic_Population_2015 <- as.numeric(as.character(TN_Tract_Population_2015$Tract_Population_65_to_74_2015+TN_Tract_Population_2015$Tract_Population_75_to_84_2015+TN_Tract_Population_2015$Tract_Population_Over_85_2015))
 
 TN_Tract_Population_2015$Tract_Population_Density_2015 <- round((TN_Tract_Population_2015$Target_Demographic_Population_2015/TN_Tract_Population_2015$Tract_Population_2015), 2)
 
@@ -275,15 +276,15 @@ TN_Tract_Population_2016$Tract_Population_2016 <- as.numeric(as.character(TN_Tra
 
 TN_Tract_Population_2016$Tract_Population_2016[which(TN_Tract_Population_2016$Tract_Population_2016 == 0)] <-  mean(TN_Tract_Population_2016$Tract_Population_2016)
 
-TN_Tract_Population_2016$Tract_Population_2016 <- as.numeric(TN_Tract_Population_2016$Tract_Population_2016)
+TN_Tract_Population_2016$Tract_Population_2016 <- as.numeric(as.character(TN_Tract_Population_2016$Tract_Population_2016))
 
-TN_Tract_Population_2016$Tract_Population_65_to_74_2016 <- as.numeric(TN_Tract_Population_2016$Tract_Population_65_to_74_2016)
+TN_Tract_Population_2016$Tract_Population_65_to_74_2016 <- as.numeric(as.character(TN_Tract_Population_2016$Tract_Population_65_to_74_2016))
 
-TN_Tract_Population_2016$Tract_Population_75_to_84_2016 <- as.numeric(TN_Tract_Population_2016$Tract_Population_75_to_84_2016)
+TN_Tract_Population_2016$Tract_Population_75_to_84_2016 <- as.numeric(as.character(TN_Tract_Population_2016$Tract_Population_75_to_84_2016))
 
-TN_Tract_Population_2016$Tract_Population_Over_85_2016 <- as.numeric(TN_Tract_Population_2016$Tract_Population_Over_85_2016)
+TN_Tract_Population_2016$Tract_Population_Over_85_2016 <- as.numeric(as.character(TN_Tract_Population_2016$Tract_Population_Over_85_2016))
 
-TN_Tract_Population_2016$Target_Demographic_Population_2016 <- as.numeric(TN_Tract_Population_2016$Tract_Population_65_to_74_2016+TN_Tract_Population_2016$Tract_Population_75_to_84_2016+TN_Tract_Population_2016$Tract_Population_Over_85_2016)
+TN_Tract_Population_2016$Target_Demographic_Population_2016 <- as.numeric(as.character(TN_Tract_Population_2016$Tract_Population_65_to_74_2016+TN_Tract_Population_2016$Tract_Population_75_to_84_2016+TN_Tract_Population_2016$Tract_Population_Over_85_2016))
 
 TN_Tract_Population_2016$Tract_Population_Density_2016 <- round((TN_Tract_Population_2016$Target_Demographic_Population_2016/TN_Tract_Population_2016$Tract_Population_2016), 2)
 
@@ -315,22 +316,23 @@ TN_County_Population_2011$County_Population_2011 <- as.numeric(as.character(TN_C
 
 TN_County_Population_2011$County_Population_2011[which(TN_County_Population_2011$County_Population_2011 == 0)] <-  mean(TN_County_Population_2011$County_Population_2011)
 
-TN_County_Population_2011$County_Population_65_to_69_2011 <- as.numeric(TN_County_Population_2011$County_Population_65_to_69_2011)
+TN_County_Population_2011$County_Population_65_to_69_2011 <- as.numeric(as.character(TN_County_Population_2011$County_Population_65_to_69_2011))
 
-TN_County_Population_2011$County_Population_70_to_74_2011 <- as.numeric(TN_County_Population_2011$County_Population_70_to_74_2011)
+TN_County_Population_2011$County_Population_70_to_74_2011 <- as.numeric(as.character(TN_County_Population_2011$County_Population_70_to_74_2011))
 
-TN_County_Population_2011$County_Population_75_to_79_2011 <- as.numeric(TN_County_Population_2011$County_Population_75_to_79_2011)
+TN_County_Population_2011$County_Population_75_to_79_2011 <- as.numeric(as.character(TN_County_Population_2011$County_Population_75_to_79_2011))
 
-TN_County_Population_2011$County_Population_80_to_84_2011 <- as.numeric(TN_County_Population_2011$County_Population_80_to_84_2011)
+TN_County_Population_2011$County_Population_80_to_84_2011 <- as.numeric(as.character(TN_County_Population_2011$County_Population_80_to_84_2011))
 
-TN_County_Population_2011$County_Population_Over_85_2011 <- as.numeric(TN_County_Population_2011$County_Population_Over_85_2011)
+TN_County_Population_2011$County_Population_Over_85_2011 <- as.numeric(as.character(TN_County_Population_2011$County_Population_Over_85_2011))
 
-TN_County_Population_2011$Target_Demographic_Population_2011 <- as.numeric(TN_County_Population_2011$County_Population_65_to_69_2011+TN_County_Population_2011$County_Population_70_to_74_2011+TN_County_Population_2011$County_Population_75_to_79_2011+TN_County_Population_2011$County_Population_80_to_84_2011+TN_County_Population_2011$County_Population_Over_85_2011)
+TN_County_Population_2011$Target_Demographic_Population_2011 <- as.numeric(as.character(TN_County_Population_2011$County_Population_65_to_69_2011+TN_County_Population_2011$County_Population_70_to_74_2011+TN_County_Population_2011$County_Population_75_to_79_2011+TN_County_Population_2011$County_Population_80_to_84_2011+TN_County_Population_2011$County_Population_Over_85_2011))
 
 TN_County_Population_2011$County_Population_Density_2011 <- round((TN_County_Population_2011$Target_Demographic_Population_2011/TN_County_Population_2011$County_Population_2011), 2)
 
 TN_County_Population_2011$Year_2011 <- '2011'
 
+View(TN_County_Population_2011)
 
 ##--2012--##
 TN_County_Population_2012 = read.csv("Data/TN_counties/PEP_2012_PEPAGESEX_with_ann.csv")
@@ -349,17 +351,17 @@ TN_County_Population_2012$County_Population_2012 <- as.numeric(as.character(TN_C
 
 TN_County_Population_2012$County_Population_2012[which(TN_County_Population_2012$County_Population_2012 == 0)] <-  mean(TN_County_Population_2012$County_Population_2012)
 
-TN_County_Population_2012$County_Population_65_to_69_2012 <- as.numeric(TN_County_Population_2012$County_Population_65_to_69_2012)
+TN_County_Population_2012$County_Population_65_to_69_2012 <- as.numeric(as.character(TN_County_Population_2012$County_Population_65_to_69_2012))
 
-TN_County_Population_2012$County_Population_70_to_74_2012 <- as.numeric(TN_County_Population_2012$County_Population_70_to_74_2012)
+TN_County_Population_2012$County_Population_70_to_74_2012 <- as.numeric(as.character(TN_County_Population_2012$County_Population_70_to_74_2012))
 
-TN_County_Population_2012$County_Population_75_to_79_2012 <- as.numeric(TN_County_Population_2012$County_Population_75_to_79_2012)
+TN_County_Population_2012$County_Population_75_to_79_2012 <- as.numeric(as.character(TN_County_Population_2012$County_Population_75_to_79_2012))
 
-TN_County_Population_2012$County_Population_80_to_84_2012 <- as.numeric(TN_County_Population_2012$County_Population_80_to_84_2012)
+TN_County_Population_2012$County_Population_80_to_84_2012 <- as.numeric(as.character(TN_County_Population_2012$County_Population_80_to_84_2012))
 
-TN_County_Population_2012$County_Population_Over_85_2012 <- as.numeric(TN_County_Population_2012$County_Population_Over_85_2012)
+TN_County_Population_2012$County_Population_Over_85_2012 <- as.numeric(as.character(TN_County_Population_2012$County_Population_Over_85_2012))
 
-TN_County_Population_2012$Target_Demographic_Population_2012 <- as.numeric(TN_County_Population_2012$County_Population_65_to_69_2012+TN_County_Population_2012$County_Population_70_to_74_2012+TN_County_Population_2012$County_Population_75_to_79_2012+TN_County_Population_2012$County_Population_80_to_84_2012+TN_County_Population_2012$County_Population_Over_85_2012)
+TN_County_Population_2012$Target_Demographic_Population_2012 <- as.numeric(as.character(TN_County_Population_2012$County_Population_65_to_69_2012+TN_County_Population_2012$County_Population_70_to_74_2012+TN_County_Population_2012$County_Population_75_to_79_2012+TN_County_Population_2012$County_Population_80_to_84_2012+TN_County_Population_2012$County_Population_Over_85_2012))
 
 TN_County_Population_2012$County_Population_Density_2012 <- round((TN_County_Population_2012$Target_Demographic_Population_2012/TN_County_Population_2012$County_Population_2012), 2)
 
@@ -381,17 +383,17 @@ TN_County_Population_2013$County_Population_2013 <- as.numeric(as.character(TN_C
 
 TN_County_Population_2013$County_Population_2013[which(TN_County_Population_2013$County_Population_2013 == 0)] <-  mean(TN_County_Population_2013$County_Population_2013)
 
-TN_County_Population_2013$County_Population_65_to_69_2013 <- as.numeric(TN_County_Population_2013$County_Population_65_to_69_2013)
+TN_County_Population_2013$County_Population_65_to_69_2013 <- as.numeric(as.character(TN_County_Population_2013$County_Population_65_to_69_2013))
 
-TN_County_Population_2013$County_Population_70_to_74_2013 <- as.numeric(TN_County_Population_2013$County_Population_70_to_74_2013)
+TN_County_Population_2013$County_Population_70_to_74_2013 <- as.numeric(as.character(TN_County_Population_2013$County_Population_70_to_74_2013))
 
-TN_County_Population_2013$County_Population_75_to_79_2013 <- as.numeric(TN_County_Population_2013$County_Population_75_to_79_2013)
+TN_County_Population_2013$County_Population_75_to_79_2013 <- as.numeric(as.character(TN_County_Population_2013$County_Population_75_to_79_2013))
 
-TN_County_Population_2013$County_Population_80_to_84_2013 <- as.numeric(TN_County_Population_2013$County_Population_80_to_84_2013)
+TN_County_Population_2013$County_Population_80_to_84_2013 <- as.numeric(as.character(TN_County_Population_2013$County_Population_80_to_84_2013))
 
-TN_County_Population_2013$County_Population_Over_85_2013 <- as.numeric(TN_County_Population_2013$County_Population_Over_85_2013)
+TN_County_Population_2013$County_Population_Over_85_2013 <- as.numeric(as.character(TN_County_Population_2013$County_Population_Over_85_2013))
 
-TN_County_Population_2013$Target_Demographic_Population_2013 <- as.numeric(TN_County_Population_2013$County_Population_65_to_69_2013+TN_County_Population_2013$County_Population_70_to_74_2013+TN_County_Population_2013$County_Population_75_to_79_2013+TN_County_Population_2013$County_Population_80_to_84_2013+TN_County_Population_2013$County_Population_Over_85_2013)
+TN_County_Population_2013$Target_Demographic_Population_2013 <- as.numeric(as.character(TN_County_Population_2013$County_Population_65_to_69_2013+TN_County_Population_2013$County_Population_70_to_74_2013+TN_County_Population_2013$County_Population_75_to_79_2013+TN_County_Population_2013$County_Population_80_to_84_2013+TN_County_Population_2013$County_Population_Over_85_2013))
 
 TN_County_Population_2013$County_Population_Density_2013 <- round((TN_County_Population_2013$Target_Demographic_Population_2013/TN_County_Population_2013$County_Population_2013), 2)
 
@@ -412,17 +414,17 @@ TN_County_Population_2014$County_Population_2014 <- as.numeric(as.character(TN_C
 
 TN_County_Population_2014$County_Population_2014[which(TN_County_Population_2014$County_Population_2014 == 0)] <-  mean(TN_County_Population_2014$County_Population_2014)
 
-TN_County_Population_2014$County_Population_65_to_69_2014 <- as.numeric(TN_County_Population_2014$County_Population_65_to_69_2014)
+TN_County_Population_2014$County_Population_65_to_69_2014 <- as.numeric(as.character(TN_County_Population_2014$County_Population_65_to_69_2014))
 
-TN_County_Population_2014$County_Population_70_to_74_2014 <- as.numeric(TN_County_Population_2014$County_Population_70_to_74_2014)
+TN_County_Population_2014$County_Population_70_to_74_2014 <- as.numeric(as.character(TN_County_Population_2014$County_Population_70_to_74_2014))
 
-TN_County_Population_2014$County_Population_75_to_79_2014 <- as.numeric(TN_County_Population_2014$County_Population_75_to_79_2014)
+TN_County_Population_2014$County_Population_75_to_79_2014 <- as.numeric(as.character(TN_County_Population_2014$County_Population_75_to_79_2014))
 
-TN_County_Population_2014$County_Population_80_to_84_2014 <- as.numeric(TN_County_Population_2014$County_Population_80_to_84_2014)
+TN_County_Population_2014$County_Population_80_to_84_2014 <- as.numeric(as.character(TN_County_Population_2014$County_Population_80_to_84_2014))
 
-TN_County_Population_2014$County_Population_Over_85_2014 <- as.numeric(TN_County_Population_2014$County_Population_Over_85_2014)
+TN_County_Population_2014$County_Population_Over_85_2014 <- as.numeric(as.character(TN_County_Population_2014$County_Population_Over_85_2014))
 
-TN_County_Population_2014$Target_Demographic_Population_2014 <- as.numeric(TN_County_Population_2014$County_Population_65_to_69_2014+TN_County_Population_2014$County_Population_70_to_74_2014+TN_County_Population_2014$County_Population_75_to_79_2014+TN_County_Population_2014$County_Population_80_to_84_2014+TN_County_Population_2014$County_Population_Over_85_2014)
+TN_County_Population_2014$Target_Demographic_Population_2014 <- as.numeric(as.character(TN_County_Population_2014$County_Population_65_to_69_2014+TN_County_Population_2014$County_Population_70_to_74_2014+TN_County_Population_2014$County_Population_75_to_79_2014+TN_County_Population_2014$County_Population_80_to_84_2014+TN_County_Population_2014$County_Population_Over_85_2014))
 
 TN_County_Population_2014$County_Population_Density_2014 <- round((TN_County_Population_2014$Target_Demographic_Population_2014/TN_County_Population_2014$County_Population_2014), 2)
 
@@ -443,17 +445,17 @@ TN_County_Population_2015$County_Population_2015 <- as.numeric(as.character(TN_C
 
 TN_County_Population_2015$County_Population_2015[which(TN_County_Population_2015$County_Population_2015 == 0)] <-  mean(TN_County_Population_2015$County_Population_2015)
 
-TN_County_Population_2015$County_Population_65_to_69_2015 <- as.numeric(TN_County_Population_2015$County_Population_65_to_69_2015)
+TN_County_Population_2015$County_Population_65_to_69_2015 <- as.numeric(as.character(TN_County_Population_2015$County_Population_65_to_69_2015))
 
-TN_County_Population_2015$County_Population_70_to_74_2015 <- as.numeric(TN_County_Population_2015$County_Population_70_to_74_2015)
+TN_County_Population_2015$County_Population_70_to_74_2015 <- as.numeric(as.character(TN_County_Population_2015$County_Population_70_to_74_2015))
 
-TN_County_Population_2015$County_Population_75_to_79_2015 <- as.numeric(TN_County_Population_2015$County_Population_75_to_79_2015)
+TN_County_Population_2015$County_Population_75_to_79_2015 <- as.numeric(as.character(TN_County_Population_2015$County_Population_75_to_79_2015))
 
-TN_County_Population_2015$County_Population_80_to_84_2015 <- as.numeric(TN_County_Population_2015$County_Population_80_to_84_2015)
+TN_County_Population_2015$County_Population_80_to_84_2015 <- as.numeric(as.character(TN_County_Population_2015$County_Population_80_to_84_2015))
 
-TN_County_Population_2015$County_Population_Over_85_2015 <- as.numeric(TN_County_Population_2015$County_Population_Over_85_2015)
+TN_County_Population_2015$County_Population_Over_85_2015 <- as.numeric(as.character(TN_County_Population_2015$County_Population_Over_85_2015))
 
-TN_County_Population_2015$Target_Demographic_Population_2015 <- as.numeric(TN_County_Population_2015$County_Population_65_to_69_2015+TN_County_Population_2015$County_Population_70_to_74_2015+TN_County_Population_2015$County_Population_75_to_79_2015+TN_County_Population_2015$County_Population_80_to_84_2015+TN_County_Population_2015$County_Population_Over_85_2015)
+TN_County_Population_2015$Target_Demographic_Population_2015 <- as.numeric(as.character(TN_County_Population_2015$County_Population_65_to_69_2015+TN_County_Population_2015$County_Population_70_to_74_2015+TN_County_Population_2015$County_Population_75_to_79_2015+TN_County_Population_2015$County_Population_80_to_84_2015+TN_County_Population_2015$County_Population_Over_85_2015))
 
 TN_County_Population_2015$County_Population_Density_2015 <- round((TN_County_Population_2015$Target_Demographic_Population_2015/TN_County_Population_2015$County_Population_2015), 2)
 
@@ -474,17 +476,17 @@ TN_County_Population_2016$County_Population_2016 <- as.numeric(as.character(TN_C
 
 TN_County_Population_2016$County_Population_2016[which(TN_County_Population_2016$County_Population_2016 == 0)] <-  mean(TN_County_Population_2016$County_Population_2016)
 
-TN_County_Population_2016$County_Population_65_to_69_2016 <- as.numeric(TN_County_Population_2016$County_Population_65_to_69_2016)
+TN_County_Population_2016$County_Population_65_to_69_2016 <- as.numeric(as.character(TN_County_Population_2016$County_Population_65_to_69_2016))
 
-TN_County_Population_2016$County_Population_70_to_74_2016 <- as.numeric(TN_County_Population_2016$County_Population_70_to_74_2016)
+TN_County_Population_2016$County_Population_70_to_74_2016 <- as.numeric(as.character(TN_County_Population_2016$County_Population_70_to_74_2016))
 
-TN_County_Population_2016$County_Population_75_to_79_2016 <- as.numeric(TN_County_Population_2016$County_Population_75_to_79_2016)
+TN_County_Population_2016$County_Population_75_to_79_2016 <- as.numeric(as.character(TN_County_Population_2016$County_Population_75_to_79_2016))
 
-TN_County_Population_2016$County_Population_80_to_84_2016 <- as.numeric(TN_County_Population_2016$County_Population_80_to_84_2016)
+TN_County_Population_2016$County_Population_80_to_84_2016 <- as.numeric(as.character(TN_County_Population_2016$County_Population_80_to_84_2016))
 
-TN_County_Population_2016$County_Population_Over_85_2016 <- as.numeric(TN_County_Population_2016$County_Population_Over_85_2016)
+TN_County_Population_2016$County_Population_Over_85_2016 <- as.numeric(as.character(TN_County_Population_2016$County_Population_Over_85_2016))
 
-TN_County_Population_2016$Target_Demographic_Population_2016 <- as.numeric(TN_County_Population_2016$County_Population_65_to_69_2016+TN_County_Population_2016$County_Population_70_to_74_2016+TN_County_Population_2016$County_Population_75_to_79_2016+TN_County_Population_2016$County_Population_80_to_84_2016+TN_County_Population_2016$County_Population_Over_85_2016)
+TN_County_Population_2016$Target_Demographic_Population_2016 <- as.numeric(as.character(TN_County_Population_2016$County_Population_65_to_69_2016+TN_County_Population_2016$County_Population_70_to_74_2016+TN_County_Population_2016$County_Population_75_to_79_2016+TN_County_Population_2016$County_Population_80_to_84_2016+TN_County_Population_2016$County_Population_Over_85_2016))
 
 TN_County_Population_2016$County_Population_Density_2016 <- round((TN_County_Population_2016$Target_Demographic_Population_2016/TN_County_Population_2016$County_Population_2016), 2)
 
@@ -505,17 +507,17 @@ TN_County_Population_2017$County_Population_2017 <- as.numeric(as.character(TN_C
 
 TN_County_Population_2017$County_Population_2017[which(TN_County_Population_2017$County_Population_2017 == 0)] <-  mean(TN_County_Population_2017$County_Population_2017)
 
-TN_County_Population_2017$County_Population_65_to_69_2017 <- as.numeric(TN_County_Population_2017$County_Population_65_to_69_2017)
+TN_County_Population_2017$County_Population_65_to_69_2017 <- as.numeric(as.character(TN_County_Population_2017$County_Population_65_to_69_2017))
 
-TN_County_Population_2017$County_Population_70_to_74_2017 <- as.numeric(TN_County_Population_2017$County_Population_70_to_74_2017)
+TN_County_Population_2017$County_Population_70_to_74_2017 <- as.numeric(as.character(TN_County_Population_2017$County_Population_70_to_74_2017))
 
-TN_County_Population_2017$County_Population_75_to_79_2017 <- as.numeric(TN_County_Population_2017$County_Population_75_to_79_2017)
+TN_County_Population_2017$County_Population_75_to_79_2017 <- as.numeric(as.character(TN_County_Population_2017$County_Population_75_to_79_2017))
 
-TN_County_Population_2017$County_Population_80_to_84_2017 <- as.numeric(TN_County_Population_2017$County_Population_80_to_84_2017)
+TN_County_Population_2017$County_Population_80_to_84_2017 <- as.numeric(as.character(TN_County_Population_2017$County_Population_80_to_84_2017))
 
-TN_County_Population_2017$County_Population_Over_85_2017 <- as.numeric(TN_County_Population_2017$County_Population_Over_85_2017)
+TN_County_Population_2017$County_Population_Over_85_2017 <- as.numeric(as.character(TN_County_Population_2017$County_Population_Over_85_2017))
 
-TN_County_Population_2017$Target_Demographic_Population_2017 <- as.numeric(TN_County_Population_2017$County_Population_65_to_69_2017+TN_County_Population_2017$County_Population_70_to_74_2017+TN_County_Population_2017$County_Population_75_to_79_2017+TN_County_Population_2017$County_Population_80_to_84_2017+TN_County_Population_2017$County_Population_Over_85_2017)
+TN_County_Population_2017$Target_Demographic_Population_2017 <- as.numeric(as.character(TN_County_Population_2017$County_Population_65_to_69_2017+TN_County_Population_2017$County_Population_70_to_74_2017+TN_County_Population_2017$County_Population_75_to_79_2017+TN_County_Population_2017$County_Population_80_to_84_2017+TN_County_Population_2017$County_Population_Over_85_2017))
 
 TN_County_Population_2017$County_Population_Density <- round((TN_County_Population_2017$Target_Demographic_Population_2017/TN_County_Population_2017$County_Population_2017), 2)
 
@@ -564,16 +566,17 @@ names(TN_Tract_centroids) <- c("Long", "Lat")
 
 ggtract<-fortify(TN_Tracts, region = "GEOID")
 
-ggtract<-merge(ggtract, TN_Tract_Population, by.x=c("id"), by.y=c("ID2"), all.x=TRUE) 
+ggtract<-merge(ggtract, TN_Tract_Population, by.x=c("id"), by.y=c(2), all.x=TRUE) 
 #View(ggtract)
 
 polyFunc<-function(groupname, dat){
   poly<-filter(dat, id==groupname) %>% 
-    select(long, lat)
+    dplyr::select(long, lat)
   return(Polygons(list(Polygon(poly)), groupname))
 }
 
-tracts <- unique(ggtract[c("id","Tract_Population_Density")])
+View(tracts)
+tracts <- unique(ggtract[c("id","Tract_Population_Density_2013")])
 tractname <- tracts$id
 polygons<-lapply(tractname, function(x) polyFunc(x, dat=ggtract)) 
 sp.polygon<-SpatialPolygons(polygons)
@@ -593,7 +596,7 @@ km <- kmeans(SNF_Test, 95)
 
 leaflet(SNF_2013_TN) %>% 
   addTiles() %>%
-  addPolygons(data=df.polygon, fillColor = ~pal(Tract_Population_Density),color = "#b2aeae",fillOpacity = 1, 
+  addPolygons(data=df.polygon, fillColor = ~pal(Tract_Population_Density_2013),color = "#b2aeae",fillOpacity = 1, 
               weight = 0.3, 
               smoothFactor = 0.2) %>%
   addPolygons(data=TN,weight=0.5,col = 'black', fillColor = "Transparent") %>%
@@ -603,7 +606,7 @@ leaflet(SNF_2013_TN) %>%
   addCircles(lng = km$centers[,c(1)], lat = km$centers[,c(2)], color = "blue") %>%
   addCircles(lng = TN_Tract_centroids$Long, lat = TN_Tract_centroids$Lat, color = "transparent")
   addLegend(pal = pal, 
-            values = df.polygon$Tract_Population_Density, 
+            values = df.polygon$Tract_Population_Density_2013, 
             position = "bottomright", 
             title = "Population Density",
             labFormat = labelFormat(suffix = "%")) 
@@ -653,7 +656,7 @@ hc <- highchart() %>%
 hc
 
 ##--County Level
-TN_County_Test <- subset(TN_County_Population, ID2 == "47001")
+TN_County_Test <- subset(TN_County_Population, ID2 == "47009")
 TN_County_Test <- as.data.frame(t(TN_County_Test[c("Target_Demographic_Population_2011", "Target_Demographic_Population_2012", "Target_Demographic_Population_2013", "Target_Demographic_Population_2014", "Target_Demographic_Population_2015", "Target_Demographic_Population_2016", "Target_Demographic_Population_2017")]))
 
 TN_County_Test$Year <- c("2011", "2012", "2013", "2014", "2015", "2016", "2017")
@@ -669,6 +672,8 @@ hc <- highchart() %>%
   hc_add_theme(hc_theme_538())
 
 hc
+
+View(TN_County_Test)
 
 ##--Sandbox--##
 
@@ -693,6 +698,22 @@ plot(hybrid$longitude, hybrid$latitude, col = two$cluster,
      main = "Hybrid: Two-cluster kiosks in three-cluster locations", pch = hybrid$hybrid_shape, cex = 1.1,
      xlab = "Longitude",  ylab = "Latitude", asp = 1)
 
+View(iris[,-5])
+
+cclust(iris[,-5], k=3, save.data=TRUE,weights =c(1,0.5,1,0.1),method="hardcl")
+
+x <- forecast(TN_County_Test$Population, h = 5, level = 99)
+
+hchart(x)
 
 
+x <- arima(TN_County_Test$Population, order=c(0,1,2))
+print(x)
 
+View(TN_County_Test$Population)
+
+y <- as.data.frame(predict(x, n.ahead=3))
+
+View(y)
+
+View(TN_County_Population)
