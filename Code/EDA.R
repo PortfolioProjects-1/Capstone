@@ -656,7 +656,7 @@ hc <- highchart() %>%
 hc
 
 ##--County Level
-TN_County_Test <- subset(TN_County_Population, ID2 == "47009")
+TN_County_Test <- subset(TN_County_Population, ID2 == "47001")
 TN_County_Test <- as.data.frame(t(TN_County_Test[c("Target_Demographic_Population_2011", "Target_Demographic_Population_2012", "Target_Demographic_Population_2013", "Target_Demographic_Population_2014", "Target_Demographic_Population_2015", "Target_Demographic_Population_2016", "Target_Demographic_Population_2017")]))
 
 TN_County_Test$Year <- c("2011", "2012", "2013", "2014", "2015", "2016", "2017")
@@ -707,13 +707,13 @@ x <- forecast(TN_County_Test$Population, h = 5, level = 99)
 hchart(x)
 
 
-x <- arima(TN_County_Test$Population, order=c(0,1,2))
-print(x)
+x <- arima(TN_County_Test$Population, order=c(1,1,2))
+#print(x)
 
-View(TN_County_Test$Population)
+#View(TN_County_Test$Population)
 
-y <- as.data.frame(predict(x, n.ahead=3))
+y <- as.data.frame(predict(x, n.ahead=5))
 
 View(y)
 
-View(TN_County_Population)
+
