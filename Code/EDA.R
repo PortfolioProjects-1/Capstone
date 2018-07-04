@@ -778,11 +778,6 @@ View(TN_Tract_Test)
 
 ####################################################################################
 
-for(i in unique(TN_Tract_Population$ID2[1:17])) 
-{
-  
-TN_Tract_Selection <- subset(TN_Tract_Population, ID2 == i)
-TN_Tract_Selection <- as.data.frame(t(TN_Tract_Selection[c("Target_Demographic_Population_2011", "Target_Demographic_Population_2012", "Target_Demographic_Population_2013", "Target_Demographic_Population_2014", "Target_Demographic_Population_2015", "Target_Demographic_Population_2016")]))
 
 Tract_Predictions <- data.frame(
   Target_Demographic_Population_2017=numeric(),
@@ -790,6 +785,14 @@ Tract_Predictions <- data.frame(
   Target_Demographic_Population_2019 = numeric(),
   Target_Demographic_Population_2020=numeric(),
   Target_Demographic_Population_2021=numeric())
+
+for(i in unique(TN_Tract_Population$ID2[1:17])) 
+{
+  
+TN_Tract_Selection <- subset(TN_Tract_Population, ID2 == i)
+TN_Tract_Selection <- as.data.frame(t(TN_Tract_Selection[c("Target_Demographic_Population_2011", "Target_Demographic_Population_2012", "Target_Demographic_Population_2013", "Target_Demographic_Population_2014", "Target_Demographic_Population_2015", "Target_Demographic_Population_2016")]))
+
+
 
 names(TN_Tract_Selection) <- c("Population")
 
@@ -810,7 +813,7 @@ Tract_Predictions <- rbind(Tract_Predictions, z_tract)
 
 View(TN_Tract_Population[c("Target_Demographic_Population_2011", "Target_Demographic_Population_2012", "Target_Demographic_Population_2013", "Target_Demographic_Population_2014", "Target_Demographic_Population_2015", "Target_Demographic_Population_2016")])
 
-View(y_tract$Population)
+View(Tract_Predictions)
 
 
 
