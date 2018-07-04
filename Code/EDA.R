@@ -562,6 +562,13 @@ names(TN_Tract_centroids) <- c("Long", "Lat")
 #View(TN_Tract_centroids$Long)
 
 
+##-------Features Data Frame-------##
+
+hist(ggtract$Tract_Population_Density_2011)
+
+#Features$Low_Density_2011 <- subset(ggtract$lat ID2 == "47001020100")
+
+
 ##-------Plotting Tools------##
 
 ggtract<-fortify(TN_Tracts, region = "GEOID")
@@ -575,7 +582,7 @@ polyFunc<-function(groupname, dat){
   return(Polygons(list(Polygon(poly)), groupname))
 }
 
-View(tracts)
+#View(tracts)
 tracts <- unique(ggtract[c("id","Tract_Population_Density_2013")])
 tractname <- tracts$id
 polygons<-lapply(tractname, function(x) polyFunc(x, dat=ggtract)) 
@@ -588,6 +595,7 @@ pal <- colorNumeric(
   palette = "YlGnBu", ##try viridis
   domain = df.polygon$Tract_Population_Density)
 
+#View(ggtract)
 
 ##-------Leaflet Maps of TN-------##
 SNF_Test <- SNF_2013_TN[,c("Long", "Lat")] %>% drop_na()
@@ -638,42 +646,77 @@ leaflet(SNF_2015_TN) %>%
 
 View(TN_Tract_Test)
 
-TN_Tract_Test <- subset(TN_Tract_Population, ID2 == "47001020100")
-TN_Tract_Test <- as.data.frame(t(TN_Tract_Test[c("Target_Demographic_Population_2011", "Target_Demographic_Population_2012", "Target_Demographic_Population_2013", "Target_Demographic_Population_2014", "Target_Demographic_Population_2015", "Target_Demographic_Population_2016")]))
+TN_Tract_Selection <- subset(TN_Tract_Population, ID2 == "47001020100")
+TN_Tract_Selection <- as.data.frame(t(TN_Tract_Selection[c("Target_Demographic_Population_2011", "Target_Demographic_Population_2012", "Target_Demographic_Population_2013", "Target_Demographic_Population_2014", "Target_Demographic_Population_2015", "Target_Demographic_Population_2016")]))
 
-TN_Tract_Test$Year <- c("2011", "2012", "2013", "2014", "2015", "2016")
+TN_Tract_Selection$Year <- c("2011", "2012", "2013", "2014", "2015", "2016")
 
-names(TN_Tract_Test) <- c("Population", "Year")
+names(TN_Tract_Selection) <- c("Population", "Year")
 
-rownames(TN_Tract_Test) <- seq(length=nrow(TN_Tract_Test)) 
+rownames(TN_Tract_Selection) <- seq(length=nrow(TN_Tract_Selection)) 
+
+x_tract <- arima(TN_Tract_Selection$Population, order=c(0,2,2))
+
+y_tract <- as.data.frame(predict(x_tract, n.ahead=5))
+
+y_tract$Year <- c("2017", "2018","2019","2020", "2021")
+
+names(y_tract) <- c("Population", "Standard_Error","Year")
+
+y_tract$Population <- round(as.numeric(y_tract$Population), 0)
+
+
+#View(TN_Tract_Selection)
+#View(y_tract)
+
+TN_Tract_Selection <- rbind(TN_Tract_Selection, y_tract[,c("Population", "Year")])
+#View(TN_Tract_Selection)
+
+
 
 hc <- highchart() %>% 
   hc_title(text = "Anderson County: Census Tract 201 Population", align="center") %>% 
-  hc_xAxis(categories = TN_Tract_Test$Year) %>% 
-  hc_add_series(name="Population", data = TN_Tract_Test$Population) %>%
+  hc_xAxis(categories = TN_Tract_Selection$Year) %>% 
+  hc_add_series(name="Population", data = TN_Tract_Selection$Population) %>%
   hc_add_theme(hc_theme_538())
 
 hc
 
 ##--County Level
-TN_County_Test <- subset(TN_County_Population, ID2 == "47009")
-TN_County_Test <- as.data.frame(t(TN_County_Test[c("Target_Demographic_Population_2011", "Target_Demographic_Population_2012", "Target_Demographic_Population_2013", "Target_Demographic_Population_2014", "Target_Demographic_Population_2015", "Target_Demographic_Population_2016", "Target_Demographic_Population_2017")]))
+TN_County_Selection <- subset(TN_County_Population, ID2 == "47009")
+TN_County_Selection <- as.data.frame(t(TN_County_Selection[c("Target_Demographic_Population_2011", "Target_Demographic_Population_2012", "Target_Demographic_Population_2013", "Target_Demographic_Population_2014", "Target_Demographic_Population_2015", "Target_Demographic_Population_2016", "Target_Demographic_Population_2017")]))
 
-TN_County_Test$Year <- c("2011", "2012", "2013", "2014", "2015", "2016", "2017")
+TN_County_Selection$Year <- c("2011", "2012", "2013", "2014", "2015", "2016", "2017")
 
-names(TN_County_Test) <- c("Population", "Year")
+names(TN_County_Selection) <- c("Population", "Year")
 
-rownames(TN_County_Test) <- seq(length=nrow(TN_County_Test)) 
+rownames(TN_County_Selection) <- seq(length=nrow(TN_County_Selection)) 
+
+x_county <- arima(TN_County_Population$Population, order=c(1,1,2))
+
+y_county <- as.data.frame(predict(x_county, n.ahead=4))
+
+y_county$Year <- c("2018","2019","2020", "2021")
+
+names(y_county) <- c("Population", "Standard_Error","Year")
+
+y_county$Population <- round(as.numeric(y_county$Population), 0)
+
+#View(TN_County_Selection)
+#View(y_county)
+
+TN_County_Selection <- rbind(TN_County_Selection, y_county[,c("Population", "Year")])
+#View(TN_County_Selection)
 
 hc <- highchart() %>% 
   hc_title(text = "County Population", align="center") %>% 
-  hc_xAxis(categories = TN_County_Test$Year) %>% 
-  hc_add_series(name="Population", data = TN_County_Test$Population) %>%
+  hc_xAxis(categories = TN_County_Selection$Year) %>% 
+  hc_add_series(name="Population", data = TN_County_Selection$Population) %>%
   hc_add_theme(hc_theme_538())
 
 hc
 
-View(TN_County_Test)
+View(TN_County_Selection)
 
 ##--Sandbox--##
 
@@ -700,23 +743,74 @@ plot(hybrid$longitude, hybrid$latitude, col = two$cluster,
 
 View(iris[,-5])
 
-cclust(iris[,-5], k=3, save.data=TRUE,weights =c(1,0.5,1,0.1),method="hardcl")
+cl <- (cclust(SNF_Test, k=95, save.data=TRUE,weights =c(1,0.5),method="hardcl"))
 
-x <- forecast(TN_County_Test$Population, h = 5, level = 99)
+cl <- as.data.frame(parameters(cl))
+View(cl)
+
+plot(cl)
+
+x <- forecast(TN_County_Selection$Population, h = 5, level = 99)
 
 hchart(x)
 
 
-x <- arima(TN_County_Test$Population, order=c(1,1,2))
+x1 <- arima(TN_County_Selection$Population, order=c(1,1,2))
 #print(x)
 
 #View(TN_County_Test$Population)
 
-y <- as.data.frame(predict(x, n.ahead=5))
+y1 <- as.data.frame(predict(x1, n.ahead=5))
 
-View(y)
+View(y1)
 
-fit<-auto.arima(TN_County_Test$Population, seasonal=FALSE)
+x2 <- arima(TN_Tract_Selection$Population, order=c(1,1,0))
+
+y2 <- as.data.frame(predict(x2, n.ahead=5))
+
+View(y2)
+
+
+fit<-auto.arima(TN_County_Selection$Population, seasonal=FALSE)
 ggtsdisplay(residuals(fit), lag.max=45, main='Model Residuals', smooth=TRUE)
+
+View(TN_Tract_Test)
+
+####################################################################################
+
+for(i in unique(TN_Tract_Population$ID2[1:17])) 
+{
+  
+TN_Tract_Selection <- subset(TN_Tract_Population, ID2 == i)
+TN_Tract_Selection <- as.data.frame(t(TN_Tract_Selection[c("Target_Demographic_Population_2011", "Target_Demographic_Population_2012", "Target_Demographic_Population_2013", "Target_Demographic_Population_2014", "Target_Demographic_Population_2015", "Target_Demographic_Population_2016")]))
+
+Tract_Predictions <- data.frame(
+  Target_Demographic_Population_2017=numeric(),
+  Target_Demographic_Population_2018=numeric(),
+  Target_Demographic_Population_2019 = numeric(),
+  Target_Demographic_Population_2020=numeric(),
+  Target_Demographic_Population_2021=numeric())
+
+names(TN_Tract_Selection) <- c("Population")
+
+x_tract <- arima(TN_Tract_Selection$Population, order=c(0,2,2))
+
+y_tract <- as.data.frame(predict(x_tract, n.ahead=5))
+
+names(y_tract) <- c("Population", "Standard_Error")
+
+y_tract$Population <- round(as.numeric(as.character(y_tract$Population)), 0)
+
+z_tract <- as.data.frame(t(y_tract$Population))
+
+names(z_tract) <- c("Target_Demographic_Population_2017", "Target_Demographic_Population_2018", "Target_Demographic_Population_2019","Target_Demographic_Population_2020", "Target_Demographic_Population_2021")
+
+Tract_Predictions <- rbind(Tract_Predictions, z_tract)
+}
+
+View(TN_Tract_Population[c("Target_Demographic_Population_2011", "Target_Demographic_Population_2012", "Target_Demographic_Population_2013", "Target_Demographic_Population_2014", "Target_Demographic_Population_2015", "Target_Demographic_Population_2016")])
+
+View(y_tract$Population)
+
 
 
