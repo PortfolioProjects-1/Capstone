@@ -778,7 +778,6 @@ View(TN_Tract_Test)
 
 ####################################################################################
 
-
 Tract_Predictions <- data.frame(
   Target_Demographic_Population_2017=numeric(),
   Target_Demographic_Population_2018=numeric(),
@@ -786,34 +785,72 @@ Tract_Predictions <- data.frame(
   Target_Demographic_Population_2020=numeric(),
   Target_Demographic_Population_2021=numeric())
 
-for(i in unique(TN_Tract_Population$ID2[1:17])) 
+ Median_2011 <- median(TN_Tract_Population$Target_Demographic_Population_2011)
+
+ Median_2012 <- median(TN_Tract_Population$Target_Demographic_Population_2012)
+
+ Median_2013 <- median(TN_Tract_Population$Target_Demographic_Population_2013)
+
+ Median_2014 <- median(TN_Tract_Population$Target_Demographic_Population_2014)
+
+ Median_2015 <- median(TN_Tract_Population$Target_Demographic_Population_2015)
+
+ Median_2016 <- median(TN_Tract_Population$Target_Demographic_Population_2016)
+ 
+ optim.control = list(maxit = 2000) 
+
+for(i in unique(TN_Tract_Population$ID2[1:1497])) 
 {
+  TN_Tract_Selection <- subset(TN_Tract_Population, ID2 == i)
   
-TN_Tract_Selection <- subset(TN_Tract_Population, ID2 == i)
-TN_Tract_Selection <- as.data.frame(t(TN_Tract_Selection[c("Target_Demographic_Population_2011", "Target_Demographic_Population_2012", "Target_Demographic_Population_2013", "Target_Demographic_Population_2014", "Target_Demographic_Population_2015", "Target_Demographic_Population_2016")]))
+ 
+  if (TN_Tract_Selection$Target_Demographic_Population_2011 == 0 &
+      TN_Tract_Selection$Target_Demographic_Population_2012 == 0 &
+      TN_Tract_Selection$Target_Demographic_Population_2013 == 0 &
+      TN_Tract_Selection$Target_Demographic_Population_2014 == 0 &  
+      TN_Tract_Selection$Target_Demographic_Population_2015 == 0 &
+      TN_Tract_Selection$Target_Demographic_Population_2016 == 0)  
+  
+  {
+    TN_Tract_Selection$Target_Demographic_Population_2011 <-  Median_2011
+    
+    TN_Tract_Selection$Target_Demographic_Population_2012 <-  Median_2012
+    
+    TN_Tract_Selection$Target_Demographic_Population_2013 <-  Median_2013
+    
+    TN_Tract_Selection$Target_Demographic_Population_2014 <-  Median_2014
+    
+    TN_Tract_Selection$Target_Demographic_Population_2015 <-  Median_2015
+    
+    TN_Tract_Selection$Target_Demographic_Population_2016 <-  Median_2016
+  }
+ 
+  median(TN_Tract_Selection$Target_Demographic_Population_2016)
+  
+  TN_Tract_Selection <- as.data.frame(t(TN_Tract_Selection[c("Target_Demographic_Population_2011", "Target_Demographic_Population_2012", "Target_Demographic_Population_2013", "Target_Demographic_Population_2014", "Target_Demographic_Population_2015", "Target_Demographic_Population_2016")]))
+  
+  names(TN_Tract_Selection) <- c("Population")
 
+  x_tract <- arima(TN_Tract_Selection$Population, order=c(0,2,2), method="ML")
 
+  y_tract <- as.data.frame(predict(x_tract, n.ahead=5))
 
-names(TN_Tract_Selection) <- c("Population")
+  names(y_tract) <- c("Population", "Standard_Error")
 
-x_tract <- arima(TN_Tract_Selection$Population, order=c(0,2,2))
+  y_tract$Population <- round(as.numeric(as.character(y_tract$Population)), 0)
 
-y_tract <- as.data.frame(predict(x_tract, n.ahead=5))
+  z_tract <- as.data.frame(t(y_tract$Population))
 
-names(y_tract) <- c("Population", "Standard_Error")
+  names(z_tract) <- c("Target_Demographic_Population_2017", "Target_Demographic_Population_2018", "Target_Demographic_Population_2019","Target_Demographic_Population_2020", "Target_Demographic_Population_2021")
 
-y_tract$Population <- round(as.numeric(as.character(y_tract$Population)), 0)
-
-z_tract <- as.data.frame(t(y_tract$Population))
-
-names(z_tract) <- c("Target_Demographic_Population_2017", "Target_Demographic_Population_2018", "Target_Demographic_Population_2019","Target_Demographic_Population_2020", "Target_Demographic_Population_2021")
-
-Tract_Predictions <- rbind(Tract_Predictions, z_tract)
+  Tract_Predictions <- rbind(Tract_Predictions, z_tract)
 }
-
+ 
 View(TN_Tract_Population[c("Target_Demographic_Population_2011", "Target_Demographic_Population_2012", "Target_Demographic_Population_2013", "Target_Demographic_Population_2014", "Target_Demographic_Population_2015", "Target_Demographic_Population_2016")])
 
 View(Tract_Predictions)
+
+
 
 
 
