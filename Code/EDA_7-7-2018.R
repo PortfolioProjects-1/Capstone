@@ -880,46 +880,46 @@ GG_Tract_2015_Mid <- subset(Centroid_Population_Data[,c("long", "lat")], 0.1 <= 
 GG_Tract_2015_High <- subset(Centroid_Population_Data[,c("long", "lat")], Centroid_Population_Data$Tract_Population_Density_2015 > 0.2)
 
 
-GG_Tract_2016_Low <- unique(subset(ggtract[,c("long", "lat")], ggtract$Tract_Population_Density_2016 < 0.1))
+GG_Tract_2016_Low <- subset(Centroid_Population_Data[,c("long", "lat")], Centroid_Population_Data$Tract_Population_Density_2016 < 0.1)
 
-GG_Tract_2016_Mid <- unique(subset(ggtract[,c("long", "lat")], 0.1 < ggtract$Tract_Population_Density_2016 & ggtract$Tract_Population_Density_2016 < 0.2))
+GG_Tract_2016_Mid <- subset(Centroid_Population_Data[,c("long", "lat")], 0.1 <= ggtract$Tract_Population_Density_2016 & ggtract$Tract_Population_Density_2016 <= 0.2)
 
-GG_Tract_2016_High <- unique(subset(ggtract[,c("long", "lat")], ggtract$Tract_Population_Density_2016 > 0.2))
-
-
-GG_Tract_2017_Low <- unique(subset(ggtract[,c("long", "lat")], ggtract$Tract_Population_Density_2017 < 0.1))
-
-GG_Tract_2017_Mid <- unique(subset(ggtract[,c("long", "lat")], 0.1 < ggtract$Tract_Population_Density_2017 & ggtract$Tract_Population_Density_2017 < 0.2))
-
-GG_Tract_2017_High <- unique(subset(ggtract[,c("long", "lat")], ggtract$Tract_Population_Density_2017 > 0.2))
+GG_Tract_2016_High <- subset(ggtract[,c("long", "lat")], ggtract$Tract_Population_Density_2016 > 0.2)
 
 
-GG_Tract_2018_Low <- unique(subset(ggtract[,c("long", "lat")], ggtract$Tract_Population_Density_2018 < 0.1))
+GG_Tract_2017_Low <- subset(ggtract[,c("long", "lat")], ggtract$Tract_Population_Density_2017 < 0.1)
 
-GG_Tract_2018_Mid <- unique(subset(ggtract[,c("long", "lat")], 0.1 < ggtract$Tract_Population_Density_2018 & ggtract$Tract_Population_Density_2018 < 0.2))
+GG_Tract_2017_Mid <- subset(ggtract[,c("long", "lat")], 0.1 <= ggtract$Tract_Population_Density_2017 & ggtract$Tract_Population_Density_2017 <= 0.2)
 
-GG_Tract_2018_High <- unique(subset(ggtract[,c("long", "lat")], ggtract$Tract_Population_Density_2018 > 0.2))
-
-
-GG_Tract_2019_Low <- unique(subset(ggtract[,c("long", "lat")], ggtract$Tract_Population_Density_2019 < 0.1))
-
-GG_Tract_2019_Mid <- unique(subset(ggtract[,c("long", "lat")], 0.1 < ggtract$Tract_Population_Density_2019 & ggtract$Tract_Population_Density_2019 < 0.2))
-
-GG_Tract_2019_High <- unique(subset(ggtract[,c("long", "lat")], ggtract$Tract_Population_Density_2019 > 0.2))
+GG_Tract_2017_High <- subset(ggtract[,c("long", "lat")], ggtract$Tract_Population_Density_2017 > 0.2)
 
 
-GG_Tract_2020_Low <- unique(subset(ggtract[,c("long", "lat")], ggtract$Tract_Population_Density_2020 < 0.1))
+GG_Tract_2018_Low <- subset(ggtract[,c("long", "lat")], ggtract$Tract_Population_Density_2018 < 0.1)
 
-GG_Tract_2020_Mid <- unique(subset(ggtract[,c("long", "lat")], 0.1 < ggtract$Tract_Population_Density_2020 & ggtract$Tract_Population_Density_2020 < 0.2))
+GG_Tract_2018_Mid <- subset(ggtract[,c("long", "lat")], 0.1 <= ggtract$Tract_Population_Density_2018 & ggtract$Tract_Population_Density_2018 <= 0.2)
 
-GG_Tract_2020_High <- unique(subset(ggtract[,c("long", "lat")], ggtract$Tract_Population_Density_2020 > 0.2))
+GG_Tract_2018_High <- subset(ggtract[,c("long", "lat")], ggtract$Tract_Population_Density_2018 > 0.2)
 
 
-GG_Tract_2021_Low <- unique(subset(ggtract[,c("long", "lat")], ggtract$Tract_Population_Density_2021 < 0.1))
+GG_Tract_2019_Low <- subset(ggtract[,c("long", "lat")], ggtract$Tract_Population_Density_2019 < 0.1)
 
-GG_Tract_2021_Mid <- unique(subset(ggtract[,c("long", "lat")], 0.1 < ggtract$Tract_Population_Density_2021 & ggtract$Tract_Population_Density_2021 < 0.2))
+GG_Tract_2019_Mid <- subset(ggtract[,c("long", "lat")], 0.1 <= ggtract$Tract_Population_Density_2019 & ggtract$Tract_Population_Density_2019 <= 0.2)
 
-GG_Tract_2021_High <- unique(subset(ggtract[,c("long", "lat")], ggtract$Tract_Population_Density_2021 > 0.2))
+GG_Tract_2019_High <- subset(ggtract[,c("long", "lat")], ggtract$Tract_Population_Density_2019 > 0.2)
+
+
+GG_Tract_2020_Low <- subset(ggtract[,c("long", "lat")], ggtract$Tract_Population_Density_2020 < 0.1)
+
+GG_Tract_2020_Mid <- subset(ggtract[,c("long", "lat")], 0.1 <= ggtract$Tract_Population_Density_2020 & ggtract$Tract_Population_Density_2020 <= 0.2)
+
+GG_Tract_2020_High <- subset(ggtract[,c("long", "lat")], ggtract$Tract_Population_Density_2020 > 0.2)
+
+
+GG_Tract_2021_Low <- subset(ggtract[,c("long", "lat")], ggtract$Tract_Population_Density_2021 < 0.1)
+
+GG_Tract_2021_Mid <- subset(ggtract[,c("long", "lat")], 0.1 <= ggtract$Tract_Population_Density_2021 & ggtract$Tract_Population_Density_2021 <= 0.2)
+
+GG_Tract_2021_High <- subset(ggtract[,c("long", "lat")], ggtract$Tract_Population_Density_2021 > 0.2)
 
 
 ##-------Leaflet Maps of TN-------##
