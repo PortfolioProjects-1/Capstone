@@ -786,7 +786,7 @@ rownames(Quality_Score_TN) <- seq(length=nrow(Quality_Score_TN))
 
 names(Quality_Score_TN) <- c("Provider_ID","Facility_Name","State","Quality_Rating")
 
-View(Quality_Score_TN)
+#View(Quality_Score_TN)
 
 SNF_2013_TN <- merge(SNF_2013_TN, Quality_Score_TN, by = "Provider_ID", sort = TRUE)
 
@@ -796,6 +796,37 @@ SNF_2015_TN <- merge(SNF_2015_TN, Quality_Score_TN, by = "Provider_ID", sort = T
 
 ##--Quality_Subsets--##
 
+SNF_2013_TN_Quality_Rating_1 <- subset(SNF_2013_TN, SNF_2013_TN$Quality_Rating ==1)
+
+SNF_2013_TN_Quality_Rating_2 <- subset(SNF_2013_TN, SNF_2013_TN$Quality_Rating ==2)
+
+SNF_2013_TN_Quality_Rating_3 <- subset(SNF_2013_TN, SNF_2013_TN$Quality_Rating ==3)
+
+SNF_2013_TN_Quality_Rating_4 <- subset(SNF_2013_TN, SNF_2013_TN$Quality_Rating ==4)
+
+SNF_2013_TN_Quality_Rating_5 <- subset(SNF_2013_TN, SNF_2013_TN$Quality_Rating ==5)
+
+##--
+SNF_2014_TN_Quality_Rating_1 <- subset(SNF_2014_TN, SNF_2014_TN$Quality_Rating ==1)
+
+SNF_2014_TN_Quality_Rating_2 <- subset(SNF_2014_TN, SNF_2014_TN$Quality_Rating ==2)
+
+SNF_2014_TN_Quality_Rating_3 <- subset(SNF_2014_TN, SNF_2014_TN$Quality_Rating ==3)
+
+SNF_2014_TN_Quality_Rating_4 <- subset(SNF_2014_TN, SNF_2014_TN$Quality_Rating ==4)
+
+SNF_2014_TN_Quality_Rating_5 <- subset(SNF_2014_TN, SNF_2014_TN$Quality_Rating ==5)
+
+##--
+SNF_2015_TN_Quality_Rating_1 <- subset(SNF_2015_TN, SNF_2015_TN$Quality_Rating ==1)
+
+SNF_2015_TN_Quality_Rating_2 <- subset(SNF_2015_TN, SNF_2015_TN$Quality_Rating ==2)
+
+SNF_2015_TN_Quality_Rating_3 <- subset(SNF_2015_TN, SNF_2015_TN$Quality_Rating ==3)
+
+SNF_2015_TN_Quality_Rating_4 <- subset(SNF_2015_TN, SNF_2015_TN$Quality_Rating ==4)
+
+SNF_2015_TN_Quality_Rating_5 <- subset(SNF_2015_TN, SNF_2015_TN$Quality_Rating ==5)
 
 
 ##---------Census Tract Shape File---------##
@@ -828,8 +859,6 @@ Centroid_Population_Data <- merge(TN_Tract_Centroids, TN_Tract_Population, by.x=
 ggtract<-fortify(TN_Tracts, region = "GEOID")
 
 centroid <- fortify(getSpPPolygonsLabptSlots(TN_Tract), region = "GEOID")
-
-View(centroid)
 
 ggtract<-merge(ggtract, TN_Tract_Population, by.x=c("id"), by.y=c(2), all.x=TRUE) 
 #View(ggtract)
