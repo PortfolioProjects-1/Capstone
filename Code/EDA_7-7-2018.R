@@ -802,11 +802,18 @@ SNF_2015_TN <- merge(SNF_2015_TN, Quality_Score_TN, by = "Provider_ID", sort = T
 TN = readOGR("Data/TN_County_Shp/TN_counties.shp")
 TN_Tracts = readOGR("Data/cb_2017_47_tract_500k.shp")
 
-TN_Tract_centroids <- as.data.frame(getSpPPolygonsLabptSlots(TN_Tracts))
+TN_Tract_Centroids <- as.data.frame(SpatialPointsDataFrame(gCentroid(TN_Tracts, byid=TRUE), 
+                                    TN_Tracts@data, match.ID=FALSE))
 
-names(TN_Tract_centroids) <- c("Long", "Lat")
+TN_Tract_Centroids <- TN_Tract_Centroids[, c("GEOID","x","y")]
 
-#View(TN_Tract_centroids$Long)
+names(TN_Tract_Centroids) <- c("id","long", "lat")
+
+#View(TN_Tract_Centroids)
+
+Centroid_Population_Data <- merge(TN_Tract_Centroids, TN_Tract_Population, by.x=c("id"), by.y=c(2), all.x=TRUE) 
+
+#View(Centroid_Population_Data)
 
 
 ##-------Features Data Frame-------##
@@ -819,6 +826,10 @@ names(TN_Tract_centroids) <- c("Long", "Lat")
 ##-------Plotting Tools------##
 
 ggtract<-fortify(TN_Tracts, region = "GEOID")
+
+centroid <- fortify(getSpPPolygonsLabptSlots(TN_Tract), region = "GEOID")
+
+View(centroid)
 
 ggtract<-merge(ggtract, TN_Tract_Population, by.x=c("id"), by.y=c(2), all.x=TRUE) 
 #View(ggtract)
@@ -846,33 +857,27 @@ pal <- colorNumeric(
 
 #--Tract_Population_Density_Subsets--##
 
-hist(subset(ggtract$Tract_Population_Density_2017, ggtract$Tract_Population_Density_2021>0))
+#hist(subset(ggtract$Tract_Population_Density_2017, ggtract$Tract_Population_Density_2021>0))
 
-GG_Tract_2013_Low <- unique(subset(ggtract[,c("long", "lat")], ggtract$Tract_Population_Density_2013 < 0.1))
+GG_Tract_2013_Low <- subset(Centroid_Population_Data[,c("long", "lat")], Centroid_Population_Data$Tract_Population_Density_2013 < 0.1)
   
-GG_Tract_2013_Mid <- unique(subset(ggtract[,c("long", "lat")], 0.1 < ggtract$Tract_Population_Density_2013 & ggtract$Tract_Population_Density_2013 < 0.2))
+GG_Tract_2013_Mid <- subset(Centroid_Population_Data[,c("long", "lat")], 0.1 <= Centroid_Population_Data$Tract_Population_Density_2013 & Centroid_Population_Data$Tract_Population_Density_2013 <= 0.2)
 
-GG_Tract_2013_High <- unique(subset(ggtract[,c("long", "lat")], ggtract$Tract_Population_Density_2013 > 0.2))
-
-
-GG_Tract_2014_Low <- unique(subset(ggtract[,c("long", "lat")], ggtract$Tract_Population_Density_2014 < 0.1))
-
-GG_Tract_2014_Mid <- unique(subset(ggtract[,c("long", "lat")], 0.1 < ggtract$Tract_Population_Density_2014 & ggtract$Tract_Population_Density_2014 < 0.2))
-
-GG_Tract_2014_High <- unique(subset(ggtract[,c("long", "lat")], ggtract$Tract_Population_Density_2014 > 0.2))
-
-GG_Tract_2013_Low <- unique(subset(ggtract[,c("long", "lat")], ggtract$Tract_Population_Density_2013 < 0.1))
-
-GG_Tract_2013_Mid <- unique(subset(ggtract[,c("long", "lat")], 0.1 < ggtract$Tract_Population_Density_2013 & ggtract$Tract_Population_Density_2013 < 0.2))
-
-GG_Tract_2013_High <- unique(subset(ggtract[,c("long", "lat")], ggtract$Tract_Population_Density_2013 > 0.2))
+GG_Tract_2013_High <- subset(Centroid_Population_Data[,c("long", "lat")], Centroid_Population_Data$Tract_Population_Density_2013 > 0.2)
 
 
-GG_Tract_2015_Low <- unique(subset(ggtract[,c("long", "lat")], ggtract$Tract_Population_Density_2015 < 0.1))
+GG_Tract_2014_Low <- subset(Centroid_Population_Data[,c("long", "lat")], Centroid_Population_Data$Tract_Population_Density_2014 < 0.1)
 
-GG_Tract_2015_Mid <- unique(subset(ggtract[,c("long", "lat")], 0.1 < ggtract$Tract_Population_Density_2015 & ggtract$Tract_Population_Density_2015 < 0.2))
+GG_Tract_2014_Mid <- subset(Centroid_Population_Data[,c("long", "lat")], 0.1 <= Centroid_Population_Data$Tract_Population_Density_2014 & Centroid_Population_Data$Tract_Population_Density_2014 <= 0.2)
 
-GG_Tract_2015_High <- unique(subset(ggtract[,c("long", "lat")], ggtract$Tract_Population_Density_2015 > 0.2))
+GG_Tract_2014_High <- subset(Centroid_Population_Data[,c("long", "lat")], Centroid_Population_Data$Tract_Population_Density_2014 > 0.2)
+
+
+GG_Tract_2015_Low <- subset(Centroid_Population_Data[,c("long", "lat")], Centroid_Population_Data$Tract_Population_Density_2015 < 0.1)
+
+GG_Tract_2015_Mid <- subset(Centroid_Population_Data[,c("long", "lat")], 0.1 <= Centroid_Population_Data$Tract_Population_Density_2015 & Centroid_Population_Data$Tract_Population_Density_2015 <= 0.2)
+
+GG_Tract_2015_High <- subset(Centroid_Population_Data[,c("long", "lat")], Centroid_Population_Data$Tract_Population_Density_2015 > 0.2)
 
 
 GG_Tract_2016_Low <- unique(subset(ggtract[,c("long", "lat")], ggtract$Tract_Population_Density_2016 < 0.1))
@@ -887,6 +892,7 @@ GG_Tract_2017_Low <- unique(subset(ggtract[,c("long", "lat")], ggtract$Tract_Pop
 GG_Tract_2017_Mid <- unique(subset(ggtract[,c("long", "lat")], 0.1 < ggtract$Tract_Population_Density_2017 & ggtract$Tract_Population_Density_2017 < 0.2))
 
 GG_Tract_2017_High <- unique(subset(ggtract[,c("long", "lat")], ggtract$Tract_Population_Density_2017 > 0.2))
+
 
 GG_Tract_2018_Low <- unique(subset(ggtract[,c("long", "lat")], ggtract$Tract_Population_Density_2018 < 0.1))
 
