@@ -19,6 +19,8 @@ library(lubridate)
 library(forecast)
 library(mefa)
 library(reshape2)
+library(wskm)
+
 ###--------------------------------###
 
 setwd("C:/Users/kenne/GIT/Capstone")
@@ -297,6 +299,174 @@ TN_Tract_Population_2016$Tract_Population_Density_2016[which(TN_Tract_Population
 ##--Total--##
 TN_Tract_Population <- cbind(TN_Tract_Population_2011, TN_Tract_Population_2012, TN_Tract_Population_2013, TN_Tract_Population_2014, TN_Tract_Population_2015, TN_Tract_Population_2016)
 
+#View(TN_Tract_Population)
+
+##--Tract_Target_Demographic_Population_Predictions
+Tract_Demographic_Predictions <- data.frame(
+  Target_Demographic_Population_2017=numeric(),
+  Target_Demographic_Population_2018=numeric(),
+  Target_Demographic_Population_2019 = numeric(),
+  Target_Demographic_Population_2020=numeric(),
+  Target_Demographic_Population_2021=numeric())
+
+Median_2011 <- median(TN_Tract_Population$Target_Demographic_Population_2011)
+
+Median_2012 <- median(TN_Tract_Population$Target_Demographic_Population_2012)
+
+Median_2013 <- median(TN_Tract_Population$Target_Demographic_Population_2013)
+
+Median_2014 <- median(TN_Tract_Population$Target_Demographic_Population_2014)
+
+Median_2015 <- median(TN_Tract_Population$Target_Demographic_Population_2015)
+
+Median_2016 <- median(TN_Tract_Population$Target_Demographic_Population_2016)
+
+optim.control = list(maxit = 2000) 
+
+for(i in unique(TN_Tract_Population$ID2[1:1497])) 
+{
+  TN_Tract_Selection <- subset(TN_Tract_Population, ID2 == i)
+  
+  
+  if (TN_Tract_Selection$Target_Demographic_Population_2011 == 0 &
+      TN_Tract_Selection$Target_Demographic_Population_2012 == 0 &
+      TN_Tract_Selection$Target_Demographic_Population_2013 == 0 &
+      TN_Tract_Selection$Target_Demographic_Population_2014 == 0 &  
+      TN_Tract_Selection$Target_Demographic_Population_2015 == 0 &
+      TN_Tract_Selection$Target_Demographic_Population_2016 == 0)  
+    
+  {
+    TN_Tract_Selection$Target_Demographic_Population_2011 <-  Median_2011
+    
+    TN_Tract_Selection$Target_Demographic_Population_2012 <-  Median_2012
+    
+    TN_Tract_Selection$Target_Demographic_Population_2013 <-  Median_2013
+    
+    TN_Tract_Selection$Target_Demographic_Population_2014 <-  Median_2014
+    
+    TN_Tract_Selection$Target_Demographic_Population_2015 <-  Median_2015
+    
+    TN_Tract_Selection$Target_Demographic_Population_2016 <-  Median_2016
+  }
+  
+  median(TN_Tract_Selection$Target_Demographic_Population_2016)
+  
+  TN_Tract_Selection <- as.data.frame(t(TN_Tract_Selection[c("Target_Demographic_Population_2011", "Target_Demographic_Population_2012", "Target_Demographic_Population_2013", "Target_Demographic_Population_2014", "Target_Demographic_Population_2015", "Target_Demographic_Population_2016")]))
+  
+  names(TN_Tract_Selection) <- c("Population")
+  
+  x_tract <- arima(TN_Tract_Selection$Population, order=c(0,2,2), method="ML")
+  
+  y_tract <- as.data.frame(predict(x_tract, n.ahead=5))
+  
+  names(y_tract) <- c("Population", "Standard_Error")
+  
+  y_tract$Population <- round(as.numeric(as.character(y_tract$Population)), 0)
+  
+  z_tract <- as.data.frame(t(y_tract$Population))
+  
+  names(z_tract) <- c("Target_Demographic_Population_2017", "Target_Demographic_Population_2018", "Target_Demographic_Population_2019","Target_Demographic_Population_2020", "Target_Demographic_Population_2021")
+  
+  Tract_Demographic_Predictions <- rbind(Tract_Demographic_Predictions, z_tract)
+}
+
+TN_Tract_Population <- cbind(TN_Tract_Population, Tract_Demographic_Predictions)
+
+##--Tract_Population_Predictions
+Tract_Population_Predictions <- data.frame(
+  Tract_Population_2017=numeric(),
+  Tract_Population_2018=numeric(),
+  Tract_Population_2019 = numeric(),
+  Tract_Population_2020=numeric(),
+  Tract_Population_2021=numeric())
+
+Median_2011 <- median(TN_Tract_Population$Tract_Population_2011)
+
+Median_2012 <- median(TN_Tract_Population$Tract_Population_2012)
+
+Median_2013 <- median(TN_Tract_Population$Tract_Population_2013)
+
+Median_2014 <- median(TN_Tract_Population$Tract_Population_2014)
+
+Median_2015 <- median(TN_Tract_Population$Tract_Population_2015)
+
+Median_2016 <- median(TN_Tract_Population$Tract_Population_2016)
+
+optim.control = list(maxit = 2000) 
+
+for(i in unique(TN_Tract_Population$ID2[1:1497])) 
+{
+  TN_Tract_Selection <- subset(TN_Tract_Population, ID2 == i)
+  
+  
+  if (TN_Tract_Selection$Tract_Population_2011 == 0 &
+      TN_Tract_Selection$Tract_Population_2012 == 0 &
+      TN_Tract_Selection$Tract_Population_2013 == 0 &
+      TN_Tract_Selection$Tract_Population_2014 == 0 &  
+      TN_Tract_Selection$Tract_Population_2015 == 0 &
+      TN_Tract_Selection$Tract_Population_2016 == 0)  
+    
+  {
+    TN_Tract_Selection$Tract_Population_2011 <-  Median_2011
+    
+    TN_Tract_Selection$Tract_Population_2012 <-  Median_2012
+    
+    TN_Tract_Selection$Tract_Population_2013 <-  Median_2013
+    
+    TN_Tract_Selection$Tract_Population_2014 <-  Median_2014
+    
+    TN_Tract_Selection$Tract_Population_2015 <-  Median_2015
+    
+    TN_Tract_Selection$Tract_Population_2016 <-  Median_2016
+  }
+  
+  median(TN_Tract_Selection$Target_Demographic_Population_2016)
+  
+  TN_Tract_Selection <- as.data.frame(t(TN_Tract_Selection[c("Tract_Population_2011", "Tract_Population_2012", "Tract_Population_2013", "Tract_Population_2014", "Tract_Population_2015", "Tract_Population_2016")]))
+  
+  names(TN_Tract_Selection) <- c("Population")
+  
+  x_tract <- arima(TN_Tract_Selection$Population, order=c(0,2,2), method="ML")
+  
+  y_tract <- as.data.frame(predict(x_tract, n.ahead=5))
+  
+  names(y_tract) <- c("Population", "Standard_Error")
+  
+  y_tract$Population <- round(as.numeric(as.character(y_tract$Population)), 0)
+  
+  z_tract <- as.data.frame(t(y_tract$Population))
+  
+  names(z_tract) <- c("Tract_Population_2017", "Tract_Population_2018", "Tract_Population_2019","Tract_Population_2020", "Tract_Population_2021")
+  
+  Tract_Population_Predictions <- rbind(Tract_Population_Predictions, z_tract)
+}
+
+TN_Tract_Population <- cbind(TN_Tract_Population, Tract_Population_Predictions)
+
+TN_Tract_Population$Tract_Population_Density_2017 <- round((TN_Tract_Population$Target_Demographic_Population_2017/TN_Tract_Population$Tract_Population_2017), 2)
+
+TN_Tract_Population$Tract_Population_Density_2017[which(TN_Tract_Population$Tract_Population_Density_2017 > 1)] <-  1
+
+
+TN_Tract_Population$Tract_Population_Density_2018 <- round((TN_Tract_Population$Target_Demographic_Population_2018/TN_Tract_Population$Tract_Population_2018), 2)
+
+TN_Tract_Population$Tract_Population_Density_2018[which(TN_Tract_Population$Tract_Population_Density_2018 > 1)] <-  1
+
+
+TN_Tract_Population$Tract_Population_Density_2019 <- round((TN_Tract_Population$Target_Demographic_Population_2019/TN_Tract_Population$Tract_Population_2019), 2)
+
+TN_Tract_Population$Tract_Population_Density_2019[which(TN_Tract_Population$Tract_Population_Density_2019 > 1)] <-  1
+
+
+TN_Tract_Population$Tract_Population_Density_2020 <- round((TN_Tract_Population$Target_Demographic_Population_2020/TN_Tract_Population$Tract_Population_2020), 2)
+
+TN_Tract_Population$Tract_Population_Density_2020[which(TN_Tract_Population$Tract_Population_Density_2020 > 1)] <-  1
+
+
+TN_Tract_Population$Tract_Population_Density_2021 <- round((TN_Tract_Population$Target_Demographic_Population_2021/TN_Tract_Population$Tract_Population_2021), 2)
+
+TN_Tract_Population$Tract_Population_Density_2021[which(TN_Tract_Population$Tract_Population_Density_2021 > 1)] <-  1
+
 View(TN_Tract_Population)
 
 ##---------County_Data---------##
@@ -531,79 +701,9 @@ TN_County_Population_2017$Year_2017 <- '2017'
 
 TN_County_Population <- cbind(TN_County_Population_2011, TN_County_Population_2012, TN_County_Population_2013, TN_County_Population_2014, TN_County_Population_2015, TN_County_Population_2016, TN_County_Population_2017)
 
-View(TN_County_Population)
+#View(TN_County_Population)
 
-Tract_Predictions <- data.frame(
-  Target_Demographic_Population_2017=numeric(),
-  Target_Demographic_Population_2018=numeric(),
-  Target_Demographic_Population_2019 = numeric(),
-  Target_Demographic_Population_2020=numeric(),
-  Target_Demographic_Population_2021=numeric())
-
-Median_2011 <- median(TN_Tract_Population$Target_Demographic_Population_2011)
-
-Median_2012 <- median(TN_Tract_Population$Target_Demographic_Population_2012)
-
-Median_2013 <- median(TN_Tract_Population$Target_Demographic_Population_2013)
-
-Median_2014 <- median(TN_Tract_Population$Target_Demographic_Population_2014)
-
-Median_2015 <- median(TN_Tract_Population$Target_Demographic_Population_2015)
-
-Median_2016 <- median(TN_Tract_Population$Target_Demographic_Population_2016)
-
-optim.control = list(maxit = 2000) 
-
-for(i in unique(TN_Tract_Population$ID2[1:1497])) 
-{
-  TN_Tract_Selection <- subset(TN_Tract_Population, ID2 == i)
-  
-  
-  if (TN_Tract_Selection$Target_Demographic_Population_2011 == 0 &
-      TN_Tract_Selection$Target_Demographic_Population_2012 == 0 &
-      TN_Tract_Selection$Target_Demographic_Population_2013 == 0 &
-      TN_Tract_Selection$Target_Demographic_Population_2014 == 0 &  
-      TN_Tract_Selection$Target_Demographic_Population_2015 == 0 &
-      TN_Tract_Selection$Target_Demographic_Population_2016 == 0)  
-    
-  {
-    TN_Tract_Selection$Target_Demographic_Population_2011 <-  Median_2011
-    
-    TN_Tract_Selection$Target_Demographic_Population_2012 <-  Median_2012
-    
-    TN_Tract_Selection$Target_Demographic_Population_2013 <-  Median_2013
-    
-    TN_Tract_Selection$Target_Demographic_Population_2014 <-  Median_2014
-    
-    TN_Tract_Selection$Target_Demographic_Population_2015 <-  Median_2015
-    
-    TN_Tract_Selection$Target_Demographic_Population_2016 <-  Median_2016
-  }
-  
-  median(TN_Tract_Selection$Target_Demographic_Population_2016)
-  
-  TN_Tract_Selection <- as.data.frame(t(TN_Tract_Selection[c("Target_Demographic_Population_2011", "Target_Demographic_Population_2012", "Target_Demographic_Population_2013", "Target_Demographic_Population_2014", "Target_Demographic_Population_2015", "Target_Demographic_Population_2016")]))
-  
-  names(TN_Tract_Selection) <- c("Population")
-  
-  x_tract <- arima(TN_Tract_Selection$Population, order=c(0,2,2), method="ML")
-  
-  y_tract <- as.data.frame(predict(x_tract, n.ahead=5))
-  
-  names(y_tract) <- c("Population", "Standard_Error")
-  
-  y_tract$Population <- round(as.numeric(as.character(y_tract$Population)), 0)
-  
-  z_tract <- as.data.frame(t(y_tract$Population))
-  
-  names(z_tract) <- c("Target_Demographic_Population_2017", "Target_Demographic_Population_2018", "Target_Demographic_Population_2019","Target_Demographic_Population_2020", "Target_Demographic_Population_2021")
-  
-  Tract_Predictions <- rbind(Tract_Predictions, z_tract)
-}
-
-TN_Tract_Population <- cbind(TN_Tract_Population, Tract_Predictions)
-
-#View(TN_Tract_Population)
+##--County_Target_Demographic_Population_Predictions
 
 County_Predictions <- data.frame(
   Target_Demographic_Population_2017=numeric(),
@@ -694,6 +794,10 @@ SNF_2014_TN <- merge(SNF_2014_TN, Quality_Score_TN, by = "Provider_ID", sort = T
 
 SNF_2015_TN <- merge(SNF_2015_TN, Quality_Score_TN, by = "Provider_ID", sort = TRUE)
 
+##--Quality_Subsets--##
+
+
+
 ##---------Census Tract Shape File---------##
 TN = readOGR("Data/TN_County_Shp/TN_counties.shp")
 TN_Tracts = readOGR("Data/cb_2017_47_tract_500k.shp")
@@ -707,10 +811,10 @@ names(TN_Tract_centroids) <- c("Long", "Lat")
 
 ##-------Features Data Frame-------##
 
-hist(ggtract$Tract_Population_Density_2011)
+#hist(ggtract$Tract_Population_Density_2011)
 
 #Features$Low_Density_2011 <- subset(ggtract$lat ID2 == "47001020100")
-
+#View(as.data.frame(TN_Tracts))
 
 ##-------Plotting Tools------##
 
@@ -732,7 +836,7 @@ polygons<-lapply(tractname, function(x) polyFunc(x, dat=ggtract))
 sp.polygon<-SpatialPolygons(polygons)
 df.polygon<-SpatialPolygonsDataFrame(sp.polygon, 
                                      data=data.frame(row.names=tractname, tracts))
-df.polygon <- df.polygon[order(df.polygon$Tract_Population_Density),]
+df.polygon <- df.polygon[order(df.polygon$Tract_Population_Density_2013),]
 
 pal <- colorNumeric(
   palette = "YlGnBu", ##try viridis
@@ -740,8 +844,81 @@ pal <- colorNumeric(
 
 #View(ggtract)
 
+#--Tract_Population_Density_Subsets--##
+
+hist(subset(ggtract$Tract_Population_Density_2017, ggtract$Tract_Population_Density_2021>0))
+
+GG_Tract_2013_Low <- unique(subset(ggtract[,c("long", "lat")], ggtract$Tract_Population_Density_2013 < 0.1))
+  
+GG_Tract_2013_Mid <- unique(subset(ggtract[,c("long", "lat")], 0.1 < ggtract$Tract_Population_Density_2013 & ggtract$Tract_Population_Density_2013 < 0.2))
+
+GG_Tract_2013_High <- unique(subset(ggtract[,c("long", "lat")], ggtract$Tract_Population_Density_2013 > 0.2))
+
+
+GG_Tract_2014_Low <- unique(subset(ggtract[,c("long", "lat")], ggtract$Tract_Population_Density_2014 < 0.1))
+
+GG_Tract_2014_Mid <- unique(subset(ggtract[,c("long", "lat")], 0.1 < ggtract$Tract_Population_Density_2014 & ggtract$Tract_Population_Density_2014 < 0.2))
+
+GG_Tract_2014_High <- unique(subset(ggtract[,c("long", "lat")], ggtract$Tract_Population_Density_2014 > 0.2))
+
+GG_Tract_2013_Low <- unique(subset(ggtract[,c("long", "lat")], ggtract$Tract_Population_Density_2013 < 0.1))
+
+GG_Tract_2013_Mid <- unique(subset(ggtract[,c("long", "lat")], 0.1 < ggtract$Tract_Population_Density_2013 & ggtract$Tract_Population_Density_2013 < 0.2))
+
+GG_Tract_2013_High <- unique(subset(ggtract[,c("long", "lat")], ggtract$Tract_Population_Density_2013 > 0.2))
+
+
+GG_Tract_2015_Low <- unique(subset(ggtract[,c("long", "lat")], ggtract$Tract_Population_Density_2015 < 0.1))
+
+GG_Tract_2015_Mid <- unique(subset(ggtract[,c("long", "lat")], 0.1 < ggtract$Tract_Population_Density_2015 & ggtract$Tract_Population_Density_2015 < 0.2))
+
+GG_Tract_2015_High <- unique(subset(ggtract[,c("long", "lat")], ggtract$Tract_Population_Density_2015 > 0.2))
+
+
+GG_Tract_2016_Low <- unique(subset(ggtract[,c("long", "lat")], ggtract$Tract_Population_Density_2016 < 0.1))
+
+GG_Tract_2016_Mid <- unique(subset(ggtract[,c("long", "lat")], 0.1 < ggtract$Tract_Population_Density_2016 & ggtract$Tract_Population_Density_2016 < 0.2))
+
+GG_Tract_2016_High <- unique(subset(ggtract[,c("long", "lat")], ggtract$Tract_Population_Density_2016 > 0.2))
+
+
+GG_Tract_2017_Low <- unique(subset(ggtract[,c("long", "lat")], ggtract$Tract_Population_Density_2017 < 0.1))
+
+GG_Tract_2017_Mid <- unique(subset(ggtract[,c("long", "lat")], 0.1 < ggtract$Tract_Population_Density_2017 & ggtract$Tract_Population_Density_2017 < 0.2))
+
+GG_Tract_2017_High <- unique(subset(ggtract[,c("long", "lat")], ggtract$Tract_Population_Density_2017 > 0.2))
+
+GG_Tract_2018_Low <- unique(subset(ggtract[,c("long", "lat")], ggtract$Tract_Population_Density_2018 < 0.1))
+
+GG_Tract_2018_Mid <- unique(subset(ggtract[,c("long", "lat")], 0.1 < ggtract$Tract_Population_Density_2018 & ggtract$Tract_Population_Density_2018 < 0.2))
+
+GG_Tract_2018_High <- unique(subset(ggtract[,c("long", "lat")], ggtract$Tract_Population_Density_2018 > 0.2))
+
+
+GG_Tract_2019_Low <- unique(subset(ggtract[,c("long", "lat")], ggtract$Tract_Population_Density_2019 < 0.1))
+
+GG_Tract_2019_Mid <- unique(subset(ggtract[,c("long", "lat")], 0.1 < ggtract$Tract_Population_Density_2019 & ggtract$Tract_Population_Density_2019 < 0.2))
+
+GG_Tract_2019_High <- unique(subset(ggtract[,c("long", "lat")], ggtract$Tract_Population_Density_2019 > 0.2))
+
+
+GG_Tract_2020_Low <- unique(subset(ggtract[,c("long", "lat")], ggtract$Tract_Population_Density_2020 < 0.1))
+
+GG_Tract_2020_Mid <- unique(subset(ggtract[,c("long", "lat")], 0.1 < ggtract$Tract_Population_Density_2020 & ggtract$Tract_Population_Density_2020 < 0.2))
+
+GG_Tract_2020_High <- unique(subset(ggtract[,c("long", "lat")], ggtract$Tract_Population_Density_2020 > 0.2))
+
+
+GG_Tract_2021_Low <- unique(subset(ggtract[,c("long", "lat")], ggtract$Tract_Population_Density_2021 < 0.1))
+
+GG_Tract_2021_Mid <- unique(subset(ggtract[,c("long", "lat")], 0.1 < ggtract$Tract_Population_Density_2021 & ggtract$Tract_Population_Density_2021 < 0.2))
+
+GG_Tract_2021_High <- unique(subset(ggtract[,c("long", "lat")], ggtract$Tract_Population_Density_2021 > 0.2))
+
+
 ##-------Leaflet Maps of TN-------##
 SNF_Test <- SNF_2013_TN[,c("Long", "Lat")] %>% drop_na()
+rownames(SNF_Test) <- seq(length=nrow(SNF_Test))
 
 km <- kmeans(SNF_Test, 95)
 
@@ -756,6 +933,23 @@ leaflet(SNF_2013_TN) %>%
                                  "<b>","Quality Rating:","</b>", SNF_2013_TN$Quality_Rating, "<br>")) %>%
   addCircles(lng = km$centers[,c(1)], lat = km$centers[,c(2)], color = "blue") %>%
   addCircles(lng = TN_Tract_centroids$Long, lat = TN_Tract_centroids$Lat, color = "transparent")
+  addLegend(pal = pal, 
+            values = df.polygon$Tract_Population_Density_2013, 
+            position = "bottomright", 
+            title = "Population Density",
+            labFormat = labelFormat(suffix = "%")) 
+  
+  leaflet(SNF_2013_TN) %>% 
+    addTiles() %>%
+    addPolygons(data=df.polygon, fillColor = ~pal(Tract_Population_Density_2013),color = "#b2aeae",fillOpacity = 1, 
+                weight = 0.3, 
+                smoothFactor = 0.2) %>%
+    addPolygons(data=TN,weight=0.5,col = 'black', fillColor = "Transparent") %>%
+    addCircles(lng = SNF_2013_TN$Long,lat = SNF_2013_TN$Lat, color = "red", 
+               popup = paste("<b>","Facility:","</b>", "<i>",SNF_2013_TN$Facility_Name.x,"</i>", "<br>",
+                             "<b>","Quality Rating:","</b>", SNF_2013_TN$Quality_Rating, "<br>")) %>%
+    addCircles(lng = cl2$Long, lat = cl2$Lat, color = "blue") %>%
+    addCircles(lng = TN_Tract_centroids$Long, lat = TN_Tract_centroids$Lat, color = "transparent")
   addLegend(pal = pal, 
             values = df.polygon$Tract_Population_Density_2013, 
             position = "bottomright", 
@@ -896,21 +1090,71 @@ plot(cl2)
 
 View(TN_Tract_centroids)
 ####################################################################################
+SNF_Test <- SNF_2013_TN[,c("Long", "Lat")] %>% drop_na()
 
-SNF_Test$Long <- rep_len(SNF_Test[252,1], length.out=1245)
+rownames(SNF_Test) <- seq(length=nrow(SNF_Test))
 
-View(Empty)
+#View(SNF_Test)
 
-Test <- as.data.frame(rep(SNF_Test[1,1], each=1245))
+Test_Long <- as.data.frame(rep(SNF_Test[1,1], each=1260))
 
-names(Test) <- c("Column1")
+names(Test_Long) <- c("Column1")
 
 #View(Test)
 
-Test2 <- as.data.frame(SNF_Test$Long)
+Test2_Long <- as.data.frame(SNF_Test$Long)
 
-names(Test2) <- c("Column1")
+names(Test2_Long) <- c("Column1")
 
 #View(Test2)
 
-View(rbind(Test2, Test))
+Test3_Long <- rbind(Test2_Long, Test_Long)
+
+###############################################################################
+
+Test_Lat <- as.data.frame(rep(SNF_Test[1,2], each=1260))
+
+names(Test_Lat) <- c("Column2")
+
+#View(Test)
+
+Test2_Lat <- as.data.frame(SNF_Test$Lat)
+
+names(Test2_Lat) <- c("Column2")
+
+#View(Test2)
+
+Test3_Lat <- rbind(Test2_Lat, Test_Lat)
+
+Test4 <- cbind(TN_Tract_centroids, Test3_Long, Test3_Lat)
+
+View(Test4)
+
+###############################################################################
+
+cl2 <- (cclust(Test4[,c("Long","Lat")], k=95, save.data=TRUE,weights =c(1,1),method="hardcl"))
+
+cl2 <- as.data.frame(parameters(cl2))
+
+plot(cl2)
+
+
+View(Test4[,c("Long","Lat")])
+View(cl2)
+groups <- c(rep(0, 10), rep(1, 10), rep(2, 30))
+
+fgkm(Test4, 95, groups, 1, 1, maxiter=100, delta=0.000001,
+     maxrestart=10,seed=-1)
+
+x <- scale(fgkm.sample)
+
+# Group information is formated as below.
+# Each group is separated by ';'.
+strGroup <- "0-9;10-19;"
+groups <- c(rep(0, 10), rep(1, 10), rep(2, 30))
+
+# Use the fgkm algorithm.
+myfgkm <- fgkm(Test4, 95, strGroup, 2, 1)
+ 
+
+View(myfgkm$featureWeight)
