@@ -796,37 +796,47 @@ SNF_2015_TN <- merge(SNF_2015_TN, Quality_Score_TN, by = "Provider_ID", sort = T
 
 ##--Quality_Subsets--##
 
-SNF_2013_TN_Quality_Rating_1 <- subset(SNF_2013_TN, SNF_2013_TN$Quality_Rating ==1)
+SNF_2013_TN_Quality_Rating_1 <- subset(SNF_2013_TN[,c("Long","Lat")], SNF_2013_TN$Quality_Rating ==1)
+SNF_2013_TN_Quality_Rating_1 <- SNF_2013_TN_Quality_Rating_1 %>% drop_na()
+rownames(SNF_2013_TN_Quality_Rating_1) <- seq(length=nrow(SNF_2013_TN_Quality_Rating_1)) 
 
-SNF_2013_TN_Quality_Rating_2 <- subset(SNF_2013_TN, SNF_2013_TN$Quality_Rating ==2)
+SNF_2013_TN_Quality_Rating_2 <- subset(SNF_2013_TN[,c("Long","Lat")], SNF_2013_TN$Quality_Rating ==2)
+SNF_2013_TN_Quality_Rating_2 <- SNF_2013_TN_Quality_Rating_2 %>% drop_na()
+rownames(SNF_2013_TN_Quality_Rating_2) <- seq(length=nrow(SNF_2013_TN_Quality_Rating_2)) 
 
-SNF_2013_TN_Quality_Rating_3 <- subset(SNF_2013_TN, SNF_2013_TN$Quality_Rating ==3)
+SNF_2013_TN_Quality_Rating_3 <- subset(SNF_2013_TN[,c("Long","Lat")], SNF_2013_TN$Quality_Rating ==3)
+SNF_2013_TN_Quality_Rating_3 <- SNF_2013_TN_Quality_Rating_3 %>% drop_na()
+rownames(SNF_2013_TN_Quality_Rating_3) <- seq(length=nrow(SNF_2013_TN_Quality_Rating_3)) 
 
-SNF_2013_TN_Quality_Rating_4 <- subset(SNF_2013_TN, SNF_2013_TN$Quality_Rating ==4)
+SNF_2013_TN_Quality_Rating_4 <- subset(SNF_2013_TN[,c("Long","Lat")], SNF_2013_TN$Quality_Rating ==4)
+SNF_2013_TN_Quality_Rating_4 <- SNF_2013_TN_Quality_Rating_4 %>% drop_na()
+rownames(SNF_2013_TN_Quality_Rating_4) <- seq(length=nrow(SNF_2013_TN_Quality_Rating_4)) 
 
-SNF_2013_TN_Quality_Rating_5 <- subset(SNF_2013_TN, SNF_2013_TN$Quality_Rating ==5)
+SNF_2013_TN_Quality_Rating_5 <- subset(SNF_2013_TN[,c("Long","Lat")], SNF_2013_TN$Quality_Rating ==5)
+SNF_2013_TN_Quality_Rating_5 <- SNF_2013_TN_Quality_Rating_5 %>% drop_na()
+rownames(SNF_2013_TN_Quality_Rating_5) <- seq(length=nrow(SNF_2013_TN_Quality_Rating_5)) 
 
 ##--
-SNF_2014_TN_Quality_Rating_1 <- subset(SNF_2014_TN, SNF_2014_TN$Quality_Rating ==1)
+SNF_2014_TN_Quality_Rating_1 <- subset(SNF_2014_TN[,c("Long","Lat")], SNF_2014_TN$Quality_Rating ==1)
 
-SNF_2014_TN_Quality_Rating_2 <- subset(SNF_2014_TN, SNF_2014_TN$Quality_Rating ==2)
+SNF_2014_TN_Quality_Rating_2 <- subset(SNF_2014_TN[,c("Long","Lat")], SNF_2014_TN$Quality_Rating ==2)
 
-SNF_2014_TN_Quality_Rating_3 <- subset(SNF_2014_TN, SNF_2014_TN$Quality_Rating ==3)
+SNF_2014_TN_Quality_Rating_3 <- subset(SNF_2014_TN[,c("Long","Lat")], SNF_2014_TN$Quality_Rating ==3)
 
-SNF_2014_TN_Quality_Rating_4 <- subset(SNF_2014_TN, SNF_2014_TN$Quality_Rating ==4)
+SNF_2014_TN_Quality_Rating_4 <- subset(SNF_2014_TN[,c("Long","Lat")], SNF_2014_TN$Quality_Rating ==4)
 
-SNF_2014_TN_Quality_Rating_5 <- subset(SNF_2014_TN, SNF_2014_TN$Quality_Rating ==5)
+SNF_2014_TN_Quality_Rating_5 <- subset(SNF_2014_TN[,c("Long","Lat")], SNF_2014_TN$Quality_Rating ==5)
 
 ##--
-SNF_2015_TN_Quality_Rating_1 <- subset(SNF_2015_TN, SNF_2015_TN$Quality_Rating ==1)
+SNF_2015_TN_Quality_Rating_1 <- subset(SNF_2015_TN[,c("Long","Lat")], SNF_2015_TN$Quality_Rating ==1)
 
-SNF_2015_TN_Quality_Rating_2 <- subset(SNF_2015_TN, SNF_2015_TN$Quality_Rating ==2)
+SNF_2015_TN_Quality_Rating_2 <- subset(SNF_2015_TN[,c("Long","Lat")], SNF_2015_TN$Quality_Rating ==2)
 
-SNF_2015_TN_Quality_Rating_3 <- subset(SNF_2015_TN, SNF_2015_TN$Quality_Rating ==3)
+SNF_2015_TN_Quality_Rating_3 <- subset(SNF_2015_TN[,c("Long","Lat")], SNF_2015_TN$Quality_Rating ==3)
 
-SNF_2015_TN_Quality_Rating_4 <- subset(SNF_2015_TN, SNF_2015_TN$Quality_Rating ==4)
+SNF_2015_TN_Quality_Rating_4 <- subset(SNF_2015_TN[,c("Long","Lat")], SNF_2015_TN$Quality_Rating ==4)
 
-SNF_2015_TN_Quality_Rating_5 <- subset(SNF_2015_TN, SNF_2015_TN$Quality_Rating ==5)
+SNF_2015_TN_Quality_Rating_5 <- subset(SNF_2015_TN[,c("Long","Lat")], SNF_2015_TN$Quality_Rating ==5)
 
 
 ##---------Census Tract Shape File---------##
@@ -888,11 +898,11 @@ pal <- colorNumeric(
 
 #hist(subset(ggtract$Tract_Population_Density_2017, ggtract$Tract_Population_Density_2021>0))
 
-GG_Tract_2013_Low <- subset(Centroid_Population_Data[,c("long", "lat")], Centroid_Population_Data$Tract_Population_Density_2013 < 0.1)
+GG_Tract_2013_Low <- as.data.frame(subset(Centroid_Population_Data[,c("long", "lat")], Centroid_Population_Data$Tract_Population_Density_2013 < 0.1))
   
-GG_Tract_2013_Mid <- subset(Centroid_Population_Data[,c("long", "lat")], 0.1 <= Centroid_Population_Data$Tract_Population_Density_2013 & Centroid_Population_Data$Tract_Population_Density_2013 <= 0.2)
+GG_Tract_2013_Mid <- as.data.frame(subset(Centroid_Population_Data[,c("long", "lat")], 0.1 <= Centroid_Population_Data$Tract_Population_Density_2013 & Centroid_Population_Data$Tract_Population_Density_2013 <= 0.2))
 
-GG_Tract_2013_High <- subset(Centroid_Population_Data[,c("long", "lat")], Centroid_Population_Data$Tract_Population_Density_2013 > 0.2)
+GG_Tract_2013_High <- as.data.frame(subset(Centroid_Population_Data[,c("long", "lat")], Centroid_Population_Data$Tract_Population_Density_2013 > 0.2))
 
 
 GG_Tract_2014_Low <- subset(Centroid_Population_Data[,c("long", "lat")], Centroid_Population_Data$Tract_Population_Density_2014 < 0.1)
@@ -1167,11 +1177,50 @@ View(Test4)
 
 ###############################################################################
 
-cl2 <- (cclust(Test4[,c("Long","Lat")], k=95, save.data=TRUE,weights =c(1,1),method="hardcl"))
+##---Weighted Clustering sandbox---##
 
+
+cl1 <- (cclust(SNF_2013_TN_Quality_Rating_1, k=38, weights =c(1,1),method="hardcl"))
+cl1 <- as.data.frame(parameters(cl1))
+
+#plot(cl1)
+
+cl2 <- (cclust(SNF_2013_TN_Quality_Rating_2, k=46, weights =c(0.5,0.5),method="hardcl"))
 cl2 <- as.data.frame(parameters(cl2))
 
-plot(cl2)
+#plot(cl2)
+
+cl3 <- (cclust(SNF_2013_TN_Quality_Rating_3, k=53, weights =c(0.33,0.33),method="hardcl"))
+cl3 <- as.data.frame(parameters(cl3))
+
+#plot(cl3)
+
+cl4 <- (cclust(SNF_2013_TN_Quality_Rating_4, k=60, weights =c(0.33,0.33),method="hardcl"))
+cl4 <- as.data.frame(parameters(cl4))
+
+#plot(cl4)
+
+cl5 <- (cclust(SNF_2013_TN_Quality_Rating_5, k=37, weights =c(0.33,0.33),method="hardcl"))
+cl5 <- as.data.frame(parameters(cl5))
+
+#plot(cl5)
+
+cl6 <- (cclust(GG_Tract_2013_Low, k=95, weights =c(0.33,0.33),method="hardcl"))
+cl6 <- as.data.frame(parameters(cl6))
+
+#plot(cl6)
+
+cl7 <- (cclust(GG_Tract_2013_Mid, k=95, weights =c(0.5,0.5),method="hardcl"))
+cl7 <- as.data.frame(parameters(cl7))
+
+#plot(cl7)
+
+cl8 <- (cclust(GG_Tract_2013_High, k=95, weights =c(1,1),method="hardcl"))
+cl8 <- as.data.frame(parameters(cl8))
+
+#plot(cl8)
+nrow(GG_Tract_2013_High)
+
 
 
 View(Test4[,c("Long","Lat")])
