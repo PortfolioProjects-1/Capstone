@@ -961,11 +961,61 @@ GG_Tract_2021_Mid <- subset(ggtract[,c("long", "lat")], 0.1 <= ggtract$Tract_Pop
 GG_Tract_2021_High <- subset(ggtract[,c("long", "lat")], ggtract$Tract_Population_Density_2021 > 0.2)
 
 
+##---Weighted Clustering sandbox---##
+
+cl1 <- (cclust(SNF_2013_TN_Quality_Rating_1, k=38, weights =c(1,1),method="hardcl"))
+cl1 <- as.data.frame(parameters(cl1))
+names(cl1) <- c("Long","Lat")
+#plot(cl1)
+
+cl2 <- (cclust(SNF_2013_TN_Quality_Rating_2, k=46, weights =c(0.5,0.5),method="hardcl"))
+cl2 <- as.data.frame(parameters(cl2))
+names(cl2) <- c("Long","Lat")
+
+#plot(cl2)
+
+cl3 <- (cclust(SNF_2013_TN_Quality_Rating_3, k=53, weights =c(0.33,0.33),method="hardcl"))
+cl3 <- as.data.frame(parameters(cl3))
+names(cl3) <- c("Long","Lat")
+
+#plot(cl3)
+
+cl4 <- (cclust(SNF_2013_TN_Quality_Rating_4, k=60, weights =c(0.25,0.25),method="hardcl"))
+cl4 <- as.data.frame(parameters(cl4))
+names(cl4) <- c("Long","Lat")
+
+#plot(cl4)
+
+cl5 <- (cclust(SNF_2013_TN_Quality_Rating_5, k=37, weights =c(0.2,0.2),method="hardcl"))
+cl5 <- as.data.frame(parameters(cl5))
+names(cl5) <- c("Long","Lat")
+
+#plot(cl5)
+
+cl6 <- (cclust(GG_Tract_2013_Low, k=95, weights =c(0.33,0.33),method="hardcl"))
+cl6 <- as.data.frame(parameters(cl6))
+names(cl6) <- c("Long","Lat")
+
+#plot(cl6)
+
+cl7 <- (cclust(GG_Tract_2013_Mid, k=95, weights =c(0.5,0.5),method="hardcl"))
+cl7 <- as.data.frame(parameters(cl7))
+names(cl7) <- c("Long","Lat")
+
+#plot(cl7)
+
+cl8 <- (cclust(GG_Tract_2013_High, k=95, weights =c(1,1),method="hardcl"))
+cl8 <- as.data.frame(parameters(cl8))
+names(cl8) <- c("Long","Lat")
+
+#plot(cl8)
+Test <- rbind(cl1,cl2,cl3,cl4,cl5,cl6,cl7,cl8)
+
 ##-------Leaflet Maps of TN-------##
 SNF_Test <- SNF_2013_TN[,c("Long", "Lat")] %>% drop_na()
 rownames(SNF_Test) <- seq(length=nrow(SNF_Test))
 
-km <- kmeans(SNF_Test, 95)
+km <- kmeans(Test, 95)
 
 leaflet(SNF_2013_TN) %>% 
   addTiles() %>%
@@ -1177,51 +1227,7 @@ View(Test4)
 
 ###############################################################################
 
-##---Weighted Clustering sandbox---##
-
-
-cl1 <- (cclust(SNF_2013_TN_Quality_Rating_1, k=38, weights =c(1,1),method="hardcl"))
-cl1 <- as.data.frame(parameters(cl1))
-
-#plot(cl1)
-
-cl2 <- (cclust(SNF_2013_TN_Quality_Rating_2, k=46, weights =c(0.5,0.5),method="hardcl"))
-cl2 <- as.data.frame(parameters(cl2))
-
-#plot(cl2)
-
-cl3 <- (cclust(SNF_2013_TN_Quality_Rating_3, k=53, weights =c(0.33,0.33),method="hardcl"))
-cl3 <- as.data.frame(parameters(cl3))
-
-#plot(cl3)
-
-cl4 <- (cclust(SNF_2013_TN_Quality_Rating_4, k=60, weights =c(0.33,0.33),method="hardcl"))
-cl4 <- as.data.frame(parameters(cl4))
-
-#plot(cl4)
-
-cl5 <- (cclust(SNF_2013_TN_Quality_Rating_5, k=37, weights =c(0.33,0.33),method="hardcl"))
-cl5 <- as.data.frame(parameters(cl5))
-
-#plot(cl5)
-
-cl6 <- (cclust(GG_Tract_2013_Low, k=95, weights =c(0.33,0.33),method="hardcl"))
-cl6 <- as.data.frame(parameters(cl6))
-
-#plot(cl6)
-
-cl7 <- (cclust(GG_Tract_2013_Mid, k=95, weights =c(0.5,0.5),method="hardcl"))
-cl7 <- as.data.frame(parameters(cl7))
-
-#plot(cl7)
-
-cl8 <- (cclust(GG_Tract_2013_High, k=95, weights =c(1,1),method="hardcl"))
-cl8 <- as.data.frame(parameters(cl8))
-
-#plot(cl8)
-nrow(GG_Tract_2013_High)
-
-
+View(Test)
 
 View(Test4[,c("Long","Lat")])
 View(cl2)
