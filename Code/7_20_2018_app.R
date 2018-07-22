@@ -1318,8 +1318,8 @@ shinyApp(
                sidebarPanel(
                  h4(strong("Select Map View")),
                  h6(strong("                                                                                     ")),
-                 h6(HTML(text = c("&#9632;")),strong("Population Density Map:"), "Shows a Population Density map of those aged 65 or higher per Census Tract"),
-                 h6(HTML(text = c("&#9632;")),strong("Traffic View Map:"),"Shows a map with roads, building, and geographical boundaries"),
+                 h6(HTML(text = c("&#9679;")),strong("Population Density Map:"), "Shows a Population Density map of those aged 65 or higher per Census Tract"),
+                 h6(HTML(text = c("&#9679;")),strong("Traffic View Map:"),"Shows a map with roads, building, and geographical boundaries"),
                  h6(strong("                                                                                     ")),
                  h4(strong("Select Predictive Year")),
                  selectInput(
@@ -1355,7 +1355,7 @@ shinyApp(
       tabPanel("TN County Chart", 
                sidebarPanel(
                  h4(strong("Select County")),
-                 h6(HTML(text = c("&#9632;")),strong("Note:"), "Population Forecasts are for the", strong("age 65"), "and above demographic"),
+                 h6(HTML(text = c("&#9679;")),strong("Note:"), "Population Forecasts are for the", strong("age 65"), "and above demographic"),
                  selectInput(
                    inputId ="County",
                    label="County  :", 
@@ -1373,7 +1373,7 @@ shinyApp(
       tabPanel("TN Tract Chart", 
                sidebarPanel(
                  h4(strong("Select Tract")),
-                 h6(HTML(text = c("&#9632;")),strong("Note:"), "Population Forecasts are for the", strong("age 65"), "and above demographic"),
+                 h6(HTML(text = c("&#9679;")),strong("Note:"), "Population Forecasts are for the", strong("age 65"), "and above demographic"),
                  selectInput(
                    inputId ="Tract",
                    label="Tract  :", 
